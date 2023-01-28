@@ -1,0 +1,1 @@
+This project serves as the front-end logic for movie_api and is built with React

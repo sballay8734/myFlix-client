@@ -1,10 +1,3 @@
-const arr = ['one', 'two', 'three'];
-const [red, orange, blue] = arr;
-
-console.log(red);
-console.log(orange);
-console.log(blue);
-
 const objArray = [
   {name: "Chris", job: "developer"},
   {name: "Steve", job: "accountant"}

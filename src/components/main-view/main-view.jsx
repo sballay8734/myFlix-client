@@ -1,4 +1,9 @@
+import { useState } from "react";
+
 export const MainView = () => {
+
+  const [books, setBooks] = useState([]); // first item (books) is current state, second item (setBooks) is function that updates current state
+
   return (
     <div>
       <div>Eloquent JavaScript</div>

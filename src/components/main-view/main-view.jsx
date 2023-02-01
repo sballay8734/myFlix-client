@@ -22,7 +22,7 @@ export const MainView = () => {
     { id: 4,
       title: "Javascript: The Definitive Guide",
       image: "https://images-na.ssl-images-amazon.com/images/I/51HbNW6RzhL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg",
-      "David Flanagan"
+      author: "David Flanagan"
     },
     { id: 5,
       title: "The Road to React",

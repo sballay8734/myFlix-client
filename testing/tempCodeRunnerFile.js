@@ -1,9 +1,20 @@
-const objArray = [
-  {name: "Chris", job: "developer"},
-  {name: "Steve", job: "accountant"}
+const ownerObject = [
+  {
+    name: "steve",
+    pointsFor: 1983,
+    wins: 11,
+    losses: 3
+  },
+  {
+    name: "shawn",
+    pointsFor: 1875,
+    wins: 11,
+    losses: 3
+  }
 ]
 
-const newArr = objArray.map((item) => {
-  return item.name
+let ownerList = ownerObject.map((item) => {
+  return item.pointsFor
 })
-console.log(newArr)
+
+console.log(ownerList)

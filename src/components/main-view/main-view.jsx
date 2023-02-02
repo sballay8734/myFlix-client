@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { BookCard } from "./book-card/book-card";
+import { BookCard } from "../book-card/book-card";
+import { BookView } from "../book-view/book-view";
 
 export const MainView = () => {
 
@@ -29,15 +30,28 @@ export const MainView = () => {
       image: "https://images-na.ssl-images-amazon.com/images/I/41MBLi5a4jL._SX384_BO1,204,203,200_.jpg",
       author: "Robin Wieruch"
     }
-  ]); // first item (books) is current state, second item (setBooks) is function that updates current state
+  ]);
+
+  const [selectedBook, setSelectedBook] = useState(null);
+
+  if (selectedBook) {
+    return <BookView book={selectedBook} onBackClick={() => setSelectedBook(null)}/>;
+  }
 
   if (books.length === 0) {
-    return <div>Books list is empty!</div>
+    return <div>The list is empty!</div>
   }
 
   return (
     <div>
-      {books.map((book) => { <BookCard book={book}/> })}
+      {books.map((book) => (
+        <BookCard
+          key={book.id}
+          book={book}
+          onBookClick={(newSelectedBook) => {
+            setSelectedBook(newSelectedBook);
+          }} />
+      ))}
     </div>
-  );
-};
+  )
+}

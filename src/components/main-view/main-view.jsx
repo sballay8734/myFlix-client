@@ -1,57 +1,71 @@
 import { useState } from "react";
-import { BookCard } from "../book-card/book-card";
-import { BookView } from "../book-view/book-view";
+import { MovieButton } from "../movie-button/movie-button";
+import { MovieView } from "../movie-view/movie-view";
 
 export const MainView = () => {
-
-  const [books, setBooks] = useState([
-    { id: 1,
-      title: "Eloquent Javascript",
-      image: "https://images-na.ssl-images-amazon.com/images/I/51InjRPaF7L._SX377_BO1,204,203,200_.jpg",
-      author: "Marijn Haverbeke"
+  // manage movies
+  const [movies, updateMovies] = useState([
+    {
+      id: 1,
+      title: "Inception",
+      description:
+        "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the project and his team to disaster.",
+      genre: "Action",
+      director: "Christopher Nolan",
+      imgUrl:
+        "https://lastfm.freetls.fastly.net/i/u/ar0/fe27be04693b9a1c81596bb0af0c26e1"
     },
-    { id: 2,
-      title: "Mastering Javascript Functional Programming",
-      image: "https://images-na.ssl-images-amazon.com/images/I/51WAikRq37L._SX218_BO1,204,203,200_QL40_FMwebp_.jpg",
-      author: "Federico Kereki"
+    {
+      id: 2,
+      title: "Gladiator",
+      description:
+        "A former Roman General sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery.",
+      genre: "Action",
+      director: "Ridley Scott",
+      imgUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs479Rbe-hDZ_fiaUURgsq8JVWaDeBkk7R6jN8kC1OYw&s"
     },
-    { id: 3,
-      title: "Javascript: The Good Parts",
-      image: "https://images-na.ssl-images-amazon.com/images/I/5131OWtQRaL._SX381_BO1,204,203,200_.jpg",
-      author: "Douglas Crockford"
-    },
-    { id: 4,
-      title: "Javascript: The Definitive Guide",
-      image: "https://images-na.ssl-images-amazon.com/images/I/51HbNW6RzhL._SX218_BO1,204,203,200_QL40_FMwebp_.jpg",
-      author: "David Flanagan"
-    },
-    { id: 5,
-      title: "The Road to React",
-      image: "https://images-na.ssl-images-amazon.com/images/I/41MBLi5a4jL._SX384_BO1,204,203,200_.jpg",
-      author: "Robin Wieruch"
+    {
+      id: 3,
+      title: "The Shawshank Redemption",
+      description:
+        "Over the course of several years, two convicts form a friendship, seeking consolation and, eventually, redemption through basic compassion.",
+      genre: "Drama",
+      director: "Frank Darabont",
+      imgUrl:
+        "https://e.snmc.io/i/1200/s/221a2004d475470f89bd5924e74de726/2108234"
     }
   ]);
+  // manage selected movies
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
-  const [selectedBook, setSelectedBook] = useState(null);
-
-  if (selectedBook) {
-    return <BookView book={selectedBook} onBackClick={() => setSelectedBook(null)}/>;
+  // if list is empty
+  if (movies.length === 0) {
+    return <div>List is Empty!</div>;
   }
 
-  if (books.length === 0) {
-    return <div>The list is empty!</div>
+  // if movie is selected
+  if (selectedMovie) {
+    return (
+      <MovieView
+        movie={selectedMovie}
+        onBackClick={() => setSelectedMovie(null)}
+      />
+    );
   }
 
+  // if no movie is selected
   return (
     <div>
-      {books.map((book) => (
-        <BookCard
-          key={book.id}
-          book={book}
-          onBookClick={(newSelectedBook) => {
-            setSelectedBook(newSelectedBook);
-          }} />
+      {movies.map((movie) => (
+        <MovieButton
+          key={movie.id}
+          movie={movie}
+          onMovieClick={(newlyClickedMovie) => {
+            setSelectedMovie(newlyClickedMovie);
+          }}
+        />
       ))}
     </div>
-  )
-}
+  );
+};

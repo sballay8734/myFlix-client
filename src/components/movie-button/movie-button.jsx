@@ -8,8 +8,10 @@ export const MovieButton = ({ movie, onMovieClick }) => {
 // prop constraints
 MovieButton.propTypes = {
   movie: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    imgUrl: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    imgUrl: PropTypes.string,
+    genre: PropTypes.string,
+    description: PropTypes.string,
     director: PropTypes.string
   }).isRequired,
   onMovieClick: PropTypes.func.isRequired

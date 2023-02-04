@@ -27291,16 +27291,18 @@ const MainView = ()=>{
     // manage selected movies
     const [selectedMovie, setSelectedMovie] = (0, _react.useState)(null);
     (0, _react.useEffect)(()=>{
-        fetch("https://openlibrary.org/search.json?q=star+wars").then((response)=>response.json()).then((data)=>{
-            const booksFromApi = data.docs.map((doc)=>{
+        fetch("https://sbmovieapi.herokuapp.com/movies").then((response)=>response.json()).then((data)=>{
+            const moviesFromApi = data.map((item)=>{
                 return {
-                    id: doc.key,
-                    title: doc.title,
-                    imgUrl: `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`,
-                    author: doc.author_name?.[0]
+                    id: item._id,
+                    title: item.title,
+                    imgUrl: item.imagePath,
+                    director: item.director.name,
+                    genre: item.genre.name,
+                    description: item.description
                 };
             });
-            updateMovies(booksFromApi);
+            updateMovies(moviesFromApi);
         });
     }, []);
     // if list is empty
@@ -27308,7 +27310,7 @@ const MainView = ()=>{
         children: "List is Empty!"
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 30,
+        lineNumber: 32,
         columnNumber: 12
     }, undefined);
     // if movie is selected
@@ -27317,7 +27319,7 @@ const MainView = ()=>{
         onBackClick: ()=>setSelectedMovie(null)
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 36,
+        lineNumber: 38,
         columnNumber: 7
     }, undefined);
     // if no movie is selected
@@ -27329,12 +27331,12 @@ const MainView = ()=>{
                 }
             }, movie.id, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 47,
+                lineNumber: 49,
                 columnNumber: 9
             }, undefined))
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 45,
+        lineNumber: 47,
         columnNumber: 5
     }, undefined);
 };
@@ -27375,8 +27377,10 @@ _c = MovieButton;
 // prop constraints
 MovieButton.propTypes = {
     movie: (0, _propTypesDefault.default).shape({
-        title: (0, _propTypesDefault.default).string.isRequired,
-        imgUrl: (0, _propTypesDefault.default).string.isRequired,
+        title: (0, _propTypesDefault.default).string,
+        imgUrl: (0, _propTypesDefault.default).string,
+        genre: (0, _propTypesDefault.default).string,
+        description: (0, _propTypesDefault.default).string,
         director: (0, _propTypesDefault.default).string
     }).isRequired,
     onMovieClick: (0, _propTypesDefault.default).func.isRequired
@@ -28263,14 +28267,14 @@ const MovieView = ({ movie , onBackClick  })=>{
                 className: "director",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: "Author: "
+                        children: "Director: "
                     }, void 0, false, {
                         fileName: "src/components/movie-view/movie-view.jsx",
                         lineNumber: 20,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: movie.author
+                        children: movie.director
                     }, void 0, false, {
                         fileName: "src/components/movie-view/movie-view.jsx",
                         lineNumber: 21,
@@ -28302,6 +28306,8 @@ MovieView.propTypes = {
     movie: (0, _propTypesDefault.default).shape({
         title: (0, _propTypesDefault.default).string.isRequired,
         imgUrl: (0, _propTypesDefault.default).string.isRequired,
+        genre: (0, _propTypesDefault.default).string,
+        description: (0, _propTypesDefault.default).string,
         director: (0, _propTypesDefault.default).string
     }).isRequired,
     onBackClick: (0, _propTypesDefault.default).func.isRequired

@@ -17,7 +17,8 @@
   "homepage": "https://github.com/sballay8734/myFlix-client#readme",
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "prop-types": "15.8.1"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.8.3",

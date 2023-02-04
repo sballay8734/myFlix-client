@@ -10,18 +10,20 @@ export const MainView = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
-    fetch("https://openlibrary.org/search.json?q=star+wars")
+    fetch("https://sbmovieapi.herokuapp.com/movies")
       .then((response) => response.json())
       .then((data) => {
-        const booksFromApi = data.docs.map((doc) => {
+        const moviesFromApi = data.map((item) => {
           return {
-            id: doc.key,
-            title: doc.title,
-            imgUrl: `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`,
-            author: doc.author_name?.[0]
+            id: item._id,
+            title: item.title,
+            imgUrl: item.imagePath,
+            director: item.director.name,
+            genre: item.genre.name,
+            description: item.description
           };
         });
-        updateMovies(booksFromApi);
+        updateMovies(moviesFromApi)
       });
   }, []);
 

@@ -47,6 +47,9 @@ export const LoginView = ({ onLoggedIn }) => {
           id="password" />
       </label>
       <button type="submit">Submit</button>
+      {/* for ease of use */}
+      <p>username: 167OLdP5BUfLZGxP</p>
+      <p>password: K39eKYhPMV9DDWhJ</p>
     </form>
   );
 };

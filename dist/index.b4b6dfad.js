@@ -28416,6 +28416,20 @@ const LoginView = ({ onLoggedIn  })=>{
                 fileName: "src/components/login-view/login-view.jsx",
                 lineNumber: 49,
                 columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                children: "username: 167OLdP5BUfLZGxP"
+            }, void 0, false, {
+                fileName: "src/components/login-view/login-view.jsx",
+                lineNumber: 51,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                children: "password: K39eKYhPMV9DDWhJ"
+            }, void 0, false, {
+                fileName: "src/components/login-view/login-view.jsx",
+                lineNumber: 52,
+                columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {

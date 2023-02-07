@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { MovieButton } from "../movie-button/movie-button";
 import { MovieView } from "../movie-view/movie-view";
+import {LoginView} from "../login-view/login-view";
 
 export const MainView = () => {
   // manage movies
   const [movies, updateMovies] = useState([]);
-
   // manage selected movies
   const [selectedMovie, setSelectedMovie] = useState(null);
+  // manage Login/Register
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     fetch("https://sbmovieapi.herokuapp.com/movies")
@@ -26,6 +28,11 @@ export const MainView = () => {
         updateMovies(moviesFromApi)
       });
   }, []);
+
+  // if no user logged in
+  if (!user) {
+    return <LoginView onLoggedIn={(user) => setUser(user)} />;
+  }
 
   // if list is empty
   if (movies.length === 0) {
@@ -57,3 +64,6 @@ export const MainView = () => {
     </div>
   );
 };
+
+
+// login to API --- username: 167OLdP5BUfLZGxP  --- password: K39eKYhPMV9DDWhJ

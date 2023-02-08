@@ -28,20 +28,20 @@ export const LoginView = ({ onLoggedIn }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="Username">
+      <label htmlFor="username">
         Username:
         <input
           type="text"
-          value={username} // <----- this line may not be necessary
+          value={username} // <----- this line
           onChange={(e) => setUsername(e.target.value)}
           name="username"
           id="username" />
       </label>
-      <label htmlFor="Password">
+      <label htmlFor="password">
         Password:
         <input
-          type="text"
-          value={password} // <----- this line may not be necessary
+          type="password"
+          value={password} // <----- this line
           onChange={(e) => setPassword(e.target.value)}
           name="password"
           id="password" />

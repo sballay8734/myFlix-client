@@ -31,7 +31,7 @@ export const MainView = () => {
 
   // if no user logged in
   if (!user) {
-    return <LoginView onLoggedIn={(user) => setUser(user)} />;
+    return <LoginView onLoggedIn={(username) => setUser(username)} />;
   }
 
   // if list is empty

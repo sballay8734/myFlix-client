@@ -27310,7 +27310,7 @@ const MainView = ()=>{
     }, []);
     // if no user logged in
     if (!user) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _loginView.LoginView), {
-        onLoggedIn: (user)=>setUser(user)
+        onLoggedIn: (username)=>setUser(username)
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
         lineNumber: 34,
@@ -28368,7 +28368,7 @@ const LoginView = ({ onLoggedIn  })=>{
         onSubmit: handleSubmit,
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                htmlFor: "Username",
+                htmlFor: "username",
                 children: [
                     "Username:",
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -28389,11 +28389,11 @@ const LoginView = ({ onLoggedIn  })=>{
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                htmlFor: "Password",
+                htmlFor: "password",
                 children: [
                     "Password:",
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                        type: "text",
+                        type: "password",
                         value: password,
                         onChange: (e)=>setPassword(e.target.value),
                         name: "password",

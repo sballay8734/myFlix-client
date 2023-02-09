@@ -4,34 +4,30 @@ import { MovieView } from "../movie-view/movie-view";
 import {LoginView} from "../login-view/login-view";
 
 export const MainView = () => {
-  // manage movies
   const [movies, updateMovies] = useState([]);
-  // manage selected movies
   const [selectedMovie, setSelectedMovie] = useState(null);
-  // manage Login/Register
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    fetch("https://sbmovieapi.herokuapp.com/movies")
+    if (!token) {
+      return;
+    }
+
+    fetch("https://sbmovieapi.herokuapp.com/movies", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then((response) => response.json())
-      .then((data) => {
-        const moviesFromApi = data.map((item) => {
-          return {
-            id: item._id,
-            title: item.title,
-            imgUrl: item.imagePath,
-            director: item.director.name,
-            genre: item.genre.name,
-            description: item.description
-          };
-        });
-        updateMovies(moviesFromApi)
-      });
-  }, []);
+      .then((data) => console.log(data));
+
+  }, [token]);
 
   // if no user logged in
   if (!user) {
-    return <LoginView onLoggedIn={(username) => setUser(username)} />;
+    return <LoginView onLoggedIn={(username, token) => {
+      setUser(username);
+      setToken(token);
+    }} />;
   }
 
   // if list is empty
@@ -61,6 +57,7 @@ export const MainView = () => {
           }}
         />
       ))}
+      <button onClick={() => { setUser(null); setToken(null) }}>Logout</button>
     </div>
   );
 };

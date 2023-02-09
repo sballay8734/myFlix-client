@@ -10,20 +10,26 @@ export const LoginView = ({ onLoggedIn }) => {
 
     // access and secret is required/designated by api
     const data = {
-      access: username,
-      secret: password
+      username: username,
+      password: password
     }
   
-    fetch("https://openlibrary.org/account/login.json", {
+    fetch("https://sbmovieapi.herokuapp.com/login", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(data)
-    }).then((response) => {
-      if (response.ok) {
-        onLoggedIn(username);
-      } else {
-        alert("Login failed")
-      }
     })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Login Response: ", data);
+        if (data.user) {
+          onLoggedIn(data.user, data.token);
+        } else {
+          alert("No such user");
+        }
+      }).catch((e) => alert("Something went wrong"));
   };
 
   return (
@@ -35,7 +41,9 @@ export const LoginView = ({ onLoggedIn }) => {
           value={username} // <----- this line
           onChange={(e) => setUsername(e.target.value)}
           name="username"
-          id="username" />
+          id="username"
+          minLength={5}
+          required />
       </label>
       <label htmlFor="password">
         Password:
@@ -44,7 +52,8 @@ export const LoginView = ({ onLoggedIn }) => {
           value={password} // <----- this line
           onChange={(e) => setPassword(e.target.value)}
           name="password"
-          id="password" />
+          id="password"
+          required />
       </label>
       <button type="submit">Submit</button>
       {/* for ease of use */}

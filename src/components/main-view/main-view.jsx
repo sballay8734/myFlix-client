@@ -2,8 +2,12 @@ import { useState, useEffect } from "react";
 import { MovieButton } from "../movie-button/movie-button";
 import { MovieView } from "../movie-view/movie-view";
 import {LoginView} from "../login-view/login-view";
+import { SignupView } from "../signup-view/signup-view";
 
 export const MainView = () => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedToken = JSON.parse(localStorage.getItem("token"));
+
   const [movies, updateMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [user, setUser] = useState(null);
@@ -24,10 +28,16 @@ export const MainView = () => {
 
   // if no user logged in
   if (!user) {
-    return <LoginView onLoggedIn={(username, token) => {
-      setUser(username);
-      setToken(token);
-    }} />;
+    return (
+      <>
+        <LoginView onLoggedIn={(username, token) => {
+          setUser(username);
+          setToken(token);
+        }} />
+        or
+        <SignupView />
+      </>
+    );
   }
 
   // if list is empty
@@ -57,7 +67,7 @@ export const MainView = () => {
           }}
         />
       ))}
-      <button onClick={() => { setUser(null); setToken(null) }}>Logout</button>
+      <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
     </div>
   );
 };

@@ -77,6 +77,7 @@ export const MainView = () => {
                   setSelectedMovie(newlyClickedMovie);
                 }}
               />
+              <Button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</Button>
             </Col>
           ))}
         </>
@@ -84,49 +85,3 @@ export const MainView = () => {
     </Row>
   )
 }
-//   if (!user) {
-//     return (
-//       <>
-//         <LoginView onLoggedIn={(username, token) => {
-//           setUser(username);
-//           setToken(token);
-//         }} />
-//         <SignupView />
-//       </>
-//     );
-//   }
-
-//   // if list is empty
-//   if (movies.length === 0) {
-//     return <div>List is Empty!</div>;
-//   }
-
-//   // if movie is selected
-//   if (selectedMovie) {
-//     return (
-//       <MovieView
-//         movie={selectedMovie}
-//         onBackClick={() => setSelectedMovie(null)}
-//       />
-//     );
-//   }
-
-//   // if no movie is selected
-//   return (
-//     <div>
-//       {movies.map((movie) => (
-//         <MovieButton
-//           key={movie.id}
-//           movie={movie}
-//           onMovieClick={(newlyClickedMovie) => {
-//             setSelectedMovie(newlyClickedMovie);
-//           }}
-//         />
-//       ))}
-//       <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
-//     </div>
-//   );
-// };
-
-
-// login to API --- username: 167OLdP5BUfLZGxP  --- password: K39eKYhPMV9DDWhJ

@@ -78,9 +78,9 @@ export const MainView = () => {
                   setSelectedMovie(newlyClickedMovie);
                 }}
               />
-              <Button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</Button>
             </Col>
           ))}
+          <Button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</Button>
         </>
       )}
     </Row>

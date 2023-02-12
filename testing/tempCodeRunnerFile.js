@@ -1,20 +1,5 @@
-const ownerObject = [
-  {
-    name: "steve",
-    pointsFor: 1983,
-    wins: 11,
-    losses: 3
-  },
-  {
-    name: "shawn",
-    pointsFor: 1875,
-    wins: 11,
-    losses: 3
-  }
-]
+function ternaryTest(number) {
+  return (number > 10) ? "Greater than 10" : "Test answer"
+}
 
-let ownerList = ownerObject.map((item) => {
-  return item.pointsFor
-})
-
-console.log(ownerList)
+console.log(ternaryTest(12))

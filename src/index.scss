@@ -1,10 +1,13 @@
-$color: steelblue;
-
-.my-flix {
-  color: $color;
-}
+$primary: SeaGreen;
+$body-bg: Honeydew;
+@import '~bootstrap/scss/bootstrap.scss';
 
 img {
   height: 275px;
+  width: 200px;
+}
+
+.button-image {
+  height: 800px;
   width: 200px;
 }

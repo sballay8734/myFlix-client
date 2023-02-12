@@ -5,6 +5,7 @@ import { LoginView } from '../login-view/login-view';
 import { SignupView } from '../signup-view/signup-view';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import { useBootstrapBreakpoints } from 'react-bootstrap/esm/ThemeProvider';
 
 export const MainView = () => {

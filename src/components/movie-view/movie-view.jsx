@@ -1,8 +1,13 @@
 import PropTypes from 'prop-types';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
-export const MovieView = ({ movie, onBackClick }) => {
+export const MovieView = ({ movies }) => {
+  const { movieId } = useParams();
+  const movie = movies.find((m) => m.id === movie.Id);
+
   return (
     <div>
       <img src={movie.imgUrl} alt="" />
@@ -22,7 +27,9 @@ export const MovieView = ({ movie, onBackClick }) => {
         <span>Director: </span>
         <span>{movie.director}</span>
       </div>
-      <Button variant="primary" onClick={onBackClick}>Back</Button>
+      <Link to={'/'}>
+        <Button variant="primary" className="back-button">Back</Button>
+      </Link>
     </div>
   );
 };

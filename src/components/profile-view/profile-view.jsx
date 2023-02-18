@@ -9,7 +9,7 @@ export const ProfileView = ({ user, token }) => {
   const [currentUser, updateCurrentUser] = useState(user);
 
   const handleUpdate = (e) => {
-    // idk
+    // updateCurrentUser({email: e.target.value})
   }
 
   const handleSubmit = (e) => {
@@ -55,7 +55,7 @@ export const ProfileView = ({ user, token }) => {
   return (
     <div>
       <UserInfo user={currentUser} />
-      <UpdateUserInfo user={currentUser} handleSubmit={handleSubmit} />
+      <UpdateUserInfo user={currentUser} handleSubmit={handleSubmit} handleUpdate={handleUpdate} />
     </div>
   )
 }

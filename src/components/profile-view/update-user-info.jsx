@@ -27,7 +27,7 @@ export const UpdateUserInfo = ({ user, handleSubmit, handleUpdate }) => {
         name='email'
         id='email-field'
         defaultValue={user.email}
-        // onChange={e => handleUpdate(e)} 
+        onChange={e => handleUpdate(e)}
       />
       <Button className='user-info-button' variant='primary' type='submit'>Update</Button>
     </form>

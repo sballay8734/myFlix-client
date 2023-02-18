@@ -27306,10 +27306,13 @@ const MainView = ()=>{
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
     const [movies, updateMovies] = (0, _react.useState)([]);
-    const [user, setUser] = (0, _react.useState)(null);
-    const [token, setToken] = (0, _react.useState)(null);
+    const [user, setUser] = (0, _react.useState)(storedUser ? storedUser : null);
+    const [token, setToken] = (0, _react.useState)(storedToken ? storedToken : null);
     (0, _react.useEffect)(()=>{
-        if (!token) return;
+        if (!token) {
+            console.log("No token");
+            return;
+        }
         fetch("https://sbmovieapi.herokuapp.com/movies", {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -27317,7 +27320,7 @@ const MainView = ()=>{
         }).then((response)=>response.json()).then((data)=>{
             const moviesFromApi = data.map((movie)=>{
                 return {
-                    id: movie.id,
+                    id: movie._id,
                     title: movie.title,
                     description: movie.description,
                     genre: movie.genre.name,
@@ -27326,7 +27329,9 @@ const MainView = ()=>{
                 };
             });
             updateMovies(moviesFromApi);
+            localStorage.setItem("movies", JSON.stringify(moviesFromApi));
         });
+        console.log("Test");
     }, [
         token
     ]);
@@ -27341,7 +27346,7 @@ const MainView = ()=>{
                 }
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 45,
+                lineNumber: 47,
                 columnNumber: 5
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _rowDefault.default), {
@@ -27360,7 +27365,7 @@ const MainView = ()=>{
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 48,
+                            lineNumber: 50,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -27377,7 +27382,7 @@ const MainView = ()=>{
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 62,
+                            lineNumber: 64,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -27397,7 +27402,7 @@ const MainView = ()=>{
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 76,
+                            lineNumber: 78,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
@@ -27406,6 +27411,8 @@ const MainView = ()=>{
                                 children: !user ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Navigate), {
                                     to: "/login",
                                     replace: true
+                                }, void 0, false, void 0, void 0) : movies.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _colDefault.default), {
+                                    children: "The list is empty!"
                                 }, void 0, false, void 0, void 0) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                                     children: movies.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _colDefault.default), {
                                             className: "mb-4",
@@ -27413,69 +27420,33 @@ const MainView = ()=>{
                                             children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieButton.MovieButton), {
                                                 movie: movie
                                             }, void 0, false, void 0, void 0)
-                                        }, movie.id, false, void 0, void 0))
+                                        }, movie._id, false, void 0, void 0))
                                 }, void 0, false)
                             }, void 0, false)
                         }, void 0, false, {
                             fileName: "src/components/main-view/main-view.jsx",
-                            lineNumber: 92,
+                            lineNumber: 94,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 47,
+                    lineNumber: 49,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 46,
+                lineNumber: 48,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 44,
+        lineNumber: 46,
         columnNumber: 5
     }, undefined);
-} //         {/* if no user, return LoginView and SignupView PUT IN PARENTHESES */}
- //         {!user ? (
- //           <Col md={5}>
- //             <LoginView onLoggedIn={(username, token) => {
- //               setUser(username);
- //               setToken(token);
- //             }} />
- //             <SignupView />
- //           </Col>
- //           // otherwise, if a selectedMovie exists, return MovieView
- //         ) : selectedMovie ? (
- //           <Col md={8}>
- //             <MovieView
- //               movie={selectedMovie}
- //               onBackClick={() => setSelectedMovie(null)}
- //             />
- //           </Col>
- //           // if no selectedMovie exists, check movies.length and return <div> if 0
- //         ) : movies.length === 0 ? (
- //           <div>The list is empty!</div>
- //         ) : (
- //           // if movies.length ! === 0, return movies.map function
- //           <>
- //             {movies.map((movie) => (
- //               <Col key={movie.id} md={3} className="mb-5">
- //                 <MovieButton
- //                   key={movie.id}
- //                   movie={movie}
- //                   onMovieClick={(newlyClickedMovie) => {
- //                     setSelectedMovie(newlyClickedMovie);
- //                   }}
- //                 />
- //               </Col>
- //             ))}
- //           </>
- //         )}
-;
-_s(MainView, "heEky5qBaXTYX1Bg51vYgyqPoao=");
+};
+_s(MainView, "ySw/VNxdBG12oD17rmIQQYceC6c=");
 _c = MainView;
 var _c;
 $RefreshReg$(_c, "MainView");
@@ -27502,6 +27473,7 @@ var _button = require("react-bootstrap/Button");
 var _buttonDefault = parcelHelpers.interopDefault(_button);
 var _card = require("react-bootstrap/Card");
 var _cardDefault = parcelHelpers.interopDefault(_card);
+var _reactRouterDom = require("react-router-dom");
 var _movieButtonScss = require("./movie-button.scss");
 const MovieButton = ({ movie  })=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _cardDefault.default), {
@@ -27512,7 +27484,7 @@ const MovieButton = ({ movie  })=>{
                 id: "button-image"
             }, void 0, false, {
                 fileName: "src/components/movie-button/movie-button.jsx",
-                lineNumber: 9,
+                lineNumber: 10,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _cardDefault.default).Body, {
@@ -27521,57 +27493,56 @@ const MovieButton = ({ movie  })=>{
                         children: movie.title
                     }, void 0, false, {
                         fileName: "src/components/movie-button/movie-button.jsx",
-                        lineNumber: 11,
+                        lineNumber: 12,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _cardDefault.default).Text, {
                         children: movie.director.name
                     }, void 0, false, {
                         fileName: "src/components/movie-button/movie-button.jsx",
-                        lineNumber: 12,
+                        lineNumber: 13,
                         columnNumber: 9
                     }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Link, {
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
                         to: `/movies/${encodeURIComponent(movie.id)}`,
                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _buttonDefault.default), {
-                            variant: "link",
+                            className: "open-button",
                             children: "Open"
                         }, void 0, false, {
                             fileName: "src/components/movie-button/movie-button.jsx",
-                            lineNumber: 14,
+                            lineNumber: 15,
                             columnNumber: 11
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/components/movie-button/movie-button.jsx",
-                        lineNumber: 13,
+                        lineNumber: 14,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/movie-button/movie-button.jsx",
-                lineNumber: 10,
+                lineNumber: 11,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/movie-button/movie-button.jsx",
-        lineNumber: 8,
+        lineNumber: 9,
         columnNumber: 5
     }, undefined);
-};
+}; // prop constraints
+ // MovieButton.propTypes = {
+ //   movie: PropTypes.shape({
+ //     title: PropTypes.string,
+ //     imgUrl: PropTypes.string,
+ //     description: PropTypes.string,
+ //     director: PropTypes.shape({
+ //       name: PropTypes.string
+ //     })
+ //   }).isRequired,
+ //   onMovieClick: PropTypes.func.isRequired
+ // };
 _c = MovieButton;
-// prop constraints
-MovieButton.propTypes = {
-    movie: (0, _propTypesDefault.default).shape({
-        title: (0, _propTypesDefault.default).string,
-        imgUrl: (0, _propTypesDefault.default).string,
-        description: (0, _propTypesDefault.default).string,
-        director: (0, _propTypesDefault.default).shape({
-            name: (0, _propTypesDefault.default).string
-        })
-    }).isRequired,
-    onMovieClick: (0, _propTypesDefault.default).func.isRequired
-};
 var _c;
 $RefreshReg$(_c, "MovieButton");
 
@@ -27580,7 +27551,7 @@ $RefreshReg$(_c, "MovieButton");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","prop-types":"7wKI2","react-bootstrap/Button":"aPzUt","react-bootstrap/Card":"lAynp","./movie-button.scss":"2T8DL","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lzpI4"}],"7wKI2":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","prop-types":"7wKI2","react-bootstrap/Button":"aPzUt","react-bootstrap/Card":"lAynp","./movie-button.scss":"2T8DL","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lzpI4","react-router-dom":"9xmpe"}],"7wKI2":[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -29620,240 +29591,909 @@ const context = /*#__PURE__*/ _react.createContext(null);
 context.displayName = "CardHeaderContext";
 exports.default = context;
 
-},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup"}],"2T8DL":[function() {},{}],"ggaUx":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$e9f6 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$e9f6.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup"}],"2T8DL":[function() {},{}],"9xmpe":[function(require,module,exports) {
+/**
+ * React Router DOM v6.8.1
+ *
+ * Copyright (c) Remix Software Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.md file in the root directory of this source tree.
+ *
+ * @license MIT
+ */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "MovieView", ()=>MovieView);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _propTypes = require("prop-types");
-var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
-var _col = require("react-bootstrap/Col");
-var _colDefault = parcelHelpers.interopDefault(_col);
-var _button = require("react-bootstrap/Button");
-var _buttonDefault = parcelHelpers.interopDefault(_button);
-var _reactRouter = require("react-router");
-var _reactRouterDom = require("react-router-dom");
-var _s = $RefreshSig$();
-const MovieView = ({ movies  })=>{
-    _s();
-    const { movieId  } = (0, _reactRouter.useParams)();
-    const movie = movies.find((m)=>m.id === movie.Id);
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                src: movie.imgUrl,
-                alt: ""
-            }, void 0, false, {
-                fileName: "src/components/movie-view/movie-view.jsx",
-                lineNumber: 13,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "title",
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: "Title: "
-                    }, void 0, false, {
-                        fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 15,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: movie.title
-                    }, void 0, false, {
-                        fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 16,
-                        columnNumber: 9
-                    }, undefined)
-                ]
-            }, void 0, true, {
-                fileName: "src/components/movie-view/movie-view.jsx",
-                lineNumber: 14,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "description",
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: "Description: "
-                    }, void 0, false, {
-                        fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 19,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: movie.description
-                    }, void 0, false, {
-                        fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 20,
-                        columnNumber: 9
-                    }, undefined)
-                ]
-            }, void 0, true, {
-                fileName: "src/components/movie-view/movie-view.jsx",
-                lineNumber: 18,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "genre",
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: "Genre: "
-                    }, void 0, false, {
-                        fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 23,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: movie.genre
-                    }, void 0, false, {
-                        fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 24,
-                        columnNumber: 9
-                    }, undefined)
-                ]
-            }, void 0, true, {
-                fileName: "src/components/movie-view/movie-view.jsx",
-                lineNumber: 22,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "director",
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: "Director: "
-                    }, void 0, false, {
-                        fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 27,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: movie.director
-                    }, void 0, false, {
-                        fileName: "src/components/movie-view/movie-view.jsx",
-                        lineNumber: 28,
-                        columnNumber: 9
-                    }, undefined)
-                ]
-            }, void 0, true, {
-                fileName: "src/components/movie-view/movie-view.jsx",
-                lineNumber: 26,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                to: "/",
-                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _buttonDefault.default), {
-                    variant: "primary",
-                    className: "back-button",
-                    children: "Back"
-                }, void 0, false, {
-                    fileName: "src/components/movie-view/movie-view.jsx",
-                    lineNumber: 31,
-                    columnNumber: 9
-                }, undefined)
-            }, void 0, false, {
-                fileName: "src/components/movie-view/movie-view.jsx",
-                lineNumber: 30,
-                columnNumber: 7
-            }, undefined)
-        ]
-    }, void 0, true, {
-        fileName: "src/components/movie-view/movie-view.jsx",
-        lineNumber: 12,
-        columnNumber: 5
-    }, undefined);
-};
-_s(MovieView, "e2L2DPdRH1AShA7yIOCsYRlzvlI=", false, function() {
-    return [
-        (0, _reactRouter.useParams)
-    ];
-});
-_c = MovieView;
-MovieView.propTypes = {
-    movie: (0, _propTypesDefault.default).shape({
-        title: (0, _propTypesDefault.default).string,
-        imgUrl: (0, _propTypesDefault.default).string,
-        genre: (0, _propTypesDefault.default).shape({
-            name: (0, _propTypesDefault.default).string,
-            description: (0, _propTypesDefault.default).string
-        }),
-        description: (0, _propTypesDefault.default).string,
-        director: (0, _propTypesDefault.default).shape({
-            bio: (0, _propTypesDefault.default).string,
-            birth: (0, _propTypesDefault.default).string,
-            death: (0, _propTypesDefault.default).string,
-            name: (0, _propTypesDefault.default).string
-        })
-    }).isRequired,
-    onBackClick: (0, _propTypesDefault.default).func.isRequired
-}; // Pre router
-var _c;
-$RefreshReg$(_c, "MovieView");
-
-  $parcel$ReactRefreshHelpers$e9f6.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"iTorj","prop-types":"7wKI2","react-bootstrap/Col":"2L2I6","react-bootstrap/Button":"aPzUt","react-router":"dbWyW","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lzpI4"}],"2L2I6":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "useCol", ()=>useCol);
-var _classnames = require("classnames");
-var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+parcelHelpers.export(exports, "AbortedDeferredError", ()=>(0, _reactRouter.AbortedDeferredError));
+parcelHelpers.export(exports, "Await", ()=>(0, _reactRouter.Await));
+parcelHelpers.export(exports, "MemoryRouter", ()=>(0, _reactRouter.MemoryRouter));
+parcelHelpers.export(exports, "Navigate", ()=>(0, _reactRouter.Navigate));
+parcelHelpers.export(exports, "NavigationType", ()=>(0, _reactRouter.NavigationType));
+parcelHelpers.export(exports, "Outlet", ()=>(0, _reactRouter.Outlet));
+parcelHelpers.export(exports, "Route", ()=>(0, _reactRouter.Route));
+parcelHelpers.export(exports, "Router", ()=>(0, _reactRouter.Router));
+parcelHelpers.export(exports, "RouterProvider", ()=>(0, _reactRouter.RouterProvider));
+parcelHelpers.export(exports, "Routes", ()=>(0, _reactRouter.Routes));
+parcelHelpers.export(exports, "UNSAFE_DataRouterContext", ()=>(0, _reactRouter.UNSAFE_DataRouterContext));
+parcelHelpers.export(exports, "UNSAFE_DataRouterStateContext", ()=>(0, _reactRouter.UNSAFE_DataRouterStateContext));
+parcelHelpers.export(exports, "UNSAFE_LocationContext", ()=>(0, _reactRouter.UNSAFE_LocationContext));
+parcelHelpers.export(exports, "UNSAFE_NavigationContext", ()=>(0, _reactRouter.UNSAFE_NavigationContext));
+parcelHelpers.export(exports, "UNSAFE_RouteContext", ()=>(0, _reactRouter.UNSAFE_RouteContext));
+parcelHelpers.export(exports, "UNSAFE_enhanceManualRouteObjects", ()=>(0, _reactRouter.UNSAFE_enhanceManualRouteObjects));
+parcelHelpers.export(exports, "createMemoryRouter", ()=>(0, _reactRouter.createMemoryRouter));
+parcelHelpers.export(exports, "createPath", ()=>(0, _reactRouter.createPath));
+parcelHelpers.export(exports, "createRoutesFromChildren", ()=>(0, _reactRouter.createRoutesFromChildren));
+parcelHelpers.export(exports, "createRoutesFromElements", ()=>(0, _reactRouter.createRoutesFromElements));
+parcelHelpers.export(exports, "defer", ()=>(0, _reactRouter.defer));
+parcelHelpers.export(exports, "generatePath", ()=>(0, _reactRouter.generatePath));
+parcelHelpers.export(exports, "isRouteErrorResponse", ()=>(0, _reactRouter.isRouteErrorResponse));
+parcelHelpers.export(exports, "json", ()=>(0, _reactRouter.json));
+parcelHelpers.export(exports, "matchPath", ()=>(0, _reactRouter.matchPath));
+parcelHelpers.export(exports, "matchRoutes", ()=>(0, _reactRouter.matchRoutes));
+parcelHelpers.export(exports, "parsePath", ()=>(0, _reactRouter.parsePath));
+parcelHelpers.export(exports, "redirect", ()=>(0, _reactRouter.redirect));
+parcelHelpers.export(exports, "renderMatches", ()=>(0, _reactRouter.renderMatches));
+parcelHelpers.export(exports, "resolvePath", ()=>(0, _reactRouter.resolvePath));
+parcelHelpers.export(exports, "unstable_useBlocker", ()=>(0, _reactRouter.unstable_useBlocker));
+parcelHelpers.export(exports, "useActionData", ()=>(0, _reactRouter.useActionData));
+parcelHelpers.export(exports, "useAsyncError", ()=>(0, _reactRouter.useAsyncError));
+parcelHelpers.export(exports, "useAsyncValue", ()=>(0, _reactRouter.useAsyncValue));
+parcelHelpers.export(exports, "useHref", ()=>(0, _reactRouter.useHref));
+parcelHelpers.export(exports, "useInRouterContext", ()=>(0, _reactRouter.useInRouterContext));
+parcelHelpers.export(exports, "useLoaderData", ()=>(0, _reactRouter.useLoaderData));
+parcelHelpers.export(exports, "useLocation", ()=>(0, _reactRouter.useLocation));
+parcelHelpers.export(exports, "useMatch", ()=>(0, _reactRouter.useMatch));
+parcelHelpers.export(exports, "useMatches", ()=>(0, _reactRouter.useMatches));
+parcelHelpers.export(exports, "useNavigate", ()=>(0, _reactRouter.useNavigate));
+parcelHelpers.export(exports, "useNavigation", ()=>(0, _reactRouter.useNavigation));
+parcelHelpers.export(exports, "useNavigationType", ()=>(0, _reactRouter.useNavigationType));
+parcelHelpers.export(exports, "useOutlet", ()=>(0, _reactRouter.useOutlet));
+parcelHelpers.export(exports, "useOutletContext", ()=>(0, _reactRouter.useOutletContext));
+parcelHelpers.export(exports, "useParams", ()=>(0, _reactRouter.useParams));
+parcelHelpers.export(exports, "useResolvedPath", ()=>(0, _reactRouter.useResolvedPath));
+parcelHelpers.export(exports, "useRevalidator", ()=>(0, _reactRouter.useRevalidator));
+parcelHelpers.export(exports, "useRouteError", ()=>(0, _reactRouter.useRouteError));
+parcelHelpers.export(exports, "useRouteLoaderData", ()=>(0, _reactRouter.useRouteLoaderData));
+parcelHelpers.export(exports, "useRoutes", ()=>(0, _reactRouter.useRoutes));
+parcelHelpers.export(exports, "BrowserRouter", ()=>BrowserRouter);
+parcelHelpers.export(exports, "Form", ()=>Form);
+parcelHelpers.export(exports, "HashRouter", ()=>HashRouter);
+parcelHelpers.export(exports, "Link", ()=>Link);
+parcelHelpers.export(exports, "NavLink", ()=>NavLink);
+parcelHelpers.export(exports, "ScrollRestoration", ()=>ScrollRestoration);
+parcelHelpers.export(exports, "UNSAFE_useScrollRestoration", ()=>useScrollRestoration);
+parcelHelpers.export(exports, "createBrowserRouter", ()=>createBrowserRouter);
+parcelHelpers.export(exports, "createHashRouter", ()=>createHashRouter);
+parcelHelpers.export(exports, "createSearchParams", ()=>createSearchParams);
+parcelHelpers.export(exports, "unstable_HistoryRouter", ()=>HistoryRouter);
+parcelHelpers.export(exports, "unstable_usePrompt", ()=>usePrompt);
+parcelHelpers.export(exports, "useBeforeUnload", ()=>useBeforeUnload);
+parcelHelpers.export(exports, "useFetcher", ()=>useFetcher);
+parcelHelpers.export(exports, "useFetchers", ()=>useFetchers);
+parcelHelpers.export(exports, "useFormAction", ()=>useFormAction);
+parcelHelpers.export(exports, "useLinkClickHandler", ()=>useLinkClickHandler);
+parcelHelpers.export(exports, "useSearchParams", ()=>useSearchParams);
+parcelHelpers.export(exports, "useSubmit", ()=>useSubmit);
 var _react = require("react");
-var _themeProvider = require("./ThemeProvider");
-var _jsxRuntime = require("react/jsx-runtime");
-function useCol({ as , bsPrefix , className , ...props }) {
-    bsPrefix = (0, _themeProvider.useBootstrapPrefix)(bsPrefix, "col");
-    const breakpoints = (0, _themeProvider.useBootstrapBreakpoints)();
-    const minBreakpoint = (0, _themeProvider.useBootstrapMinBreakpoint)();
-    const spans = [];
-    const classes = [];
-    breakpoints.forEach((brkPoint)=>{
-        const propValue = props[brkPoint];
-        delete props[brkPoint];
-        let span;
-        let offset;
-        let order;
-        if (typeof propValue === "object" && propValue != null) ({ span , offset , order  } = propValue);
-        else span = propValue;
-        const infix = brkPoint !== minBreakpoint ? `-${brkPoint}` : "";
-        if (span) spans.push(span === true ? `${bsPrefix}${infix}` : `${bsPrefix}${infix}-${span}`);
-        if (order != null) classes.push(`order${infix}-${order}`);
-        if (offset != null) classes.push(`offset${infix}-${offset}`);
-    });
-    return [
-        {
-            ...props,
-            className: (0, _classnamesDefault.default)(className, ...spans, ...classes)
-        },
-        {
-            as,
-            bsPrefix,
-            spans
+var _reactRouter = require("react-router");
+var _router = require("@remix-run/router");
+function _extends() {
+    _extends = Object.assign ? Object.assign.bind() : function(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
         }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+function _objectWithoutPropertiesLoose(source, excluded) {
+    if (source == null) return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for(i = 0; i < sourceKeys.length; i++){
+        key = sourceKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        target[key] = source[key];
+    }
+    return target;
+}
+const defaultMethod = "get";
+const defaultEncType = "application/x-www-form-urlencoded";
+function isHtmlElement(object) {
+    return object != null && typeof object.tagName === "string";
+}
+function isButtonElement(object) {
+    return isHtmlElement(object) && object.tagName.toLowerCase() === "button";
+}
+function isFormElement(object) {
+    return isHtmlElement(object) && object.tagName.toLowerCase() === "form";
+}
+function isInputElement(object) {
+    return isHtmlElement(object) && object.tagName.toLowerCase() === "input";
+}
+function isModifiedEvent(event) {
+    return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
+}
+function shouldProcessLinkClick(event, target) {
+    return event.button === 0 && (!target || target === "_self") && // Let browser handle "target=_blank" etc.
+    !isModifiedEvent(event) // Ignore clicks with modifier keys
+    ;
+}
+/**
+ * Creates a URLSearchParams object using the given initializer.
+ *
+ * This is identical to `new URLSearchParams(init)` except it also
+ * supports arrays as values in the object form of the initializer
+ * instead of just strings. This is convenient when you need multiple
+ * values for a given key, but don't want to use an array initializer.
+ *
+ * For example, instead of:
+ *
+ *   let searchParams = new URLSearchParams([
+ *     ['sort', 'name'],
+ *     ['sort', 'price']
+ *   ]);
+ *
+ * you can do:
+ *
+ *   let searchParams = createSearchParams({
+ *     sort: ['name', 'price']
+ *   });
+ */ function createSearchParams(init) {
+    if (init === void 0) init = "";
+    return new URLSearchParams(typeof init === "string" || Array.isArray(init) || init instanceof URLSearchParams ? init : Object.keys(init).reduce((memo, key)=>{
+        let value = init[key];
+        return memo.concat(Array.isArray(value) ? value.map((v)=>[
+                key,
+                v
+            ]) : [
+            [
+                key,
+                value
+            ]
+        ]);
+    }, []));
+}
+function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
+    let searchParams = createSearchParams(locationSearch);
+    if (defaultSearchParams) {
+        for (let key of defaultSearchParams.keys())if (!searchParams.has(key)) defaultSearchParams.getAll(key).forEach((value)=>{
+            searchParams.append(key, value);
+        });
+    }
+    return searchParams;
+}
+function getFormSubmissionInfo(target, defaultAction, options) {
+    let method;
+    let action;
+    let encType;
+    let formData;
+    if (isFormElement(target)) {
+        let submissionTrigger = options.submissionTrigger;
+        method = options.method || target.getAttribute("method") || defaultMethod;
+        action = options.action || target.getAttribute("action") || defaultAction;
+        encType = options.encType || target.getAttribute("enctype") || defaultEncType;
+        formData = new FormData(target);
+        if (submissionTrigger && submissionTrigger.name) formData.append(submissionTrigger.name, submissionTrigger.value);
+    } else if (isButtonElement(target) || isInputElement(target) && (target.type === "submit" || target.type === "image")) {
+        let form = target.form;
+        if (form == null) throw new Error('Cannot submit a <button> or <input type="submit"> without a <form>');
+         // <button>/<input type="submit"> may override attributes of <form>
+        method = options.method || target.getAttribute("formmethod") || form.getAttribute("method") || defaultMethod;
+        action = options.action || target.getAttribute("formaction") || form.getAttribute("action") || defaultAction;
+        encType = options.encType || target.getAttribute("formenctype") || form.getAttribute("enctype") || defaultEncType;
+        formData = new FormData(form); // Include name + value from a <button>, appending in case the button name
+        // matches an existing input name
+        if (target.name) formData.append(target.name, target.value);
+    } else if (isHtmlElement(target)) throw new Error('Cannot submit element that is not <form>, <button>, or <input type="submit|image">');
+    else {
+        method = options.method || defaultMethod;
+        action = options.action || defaultAction;
+        encType = options.encType || defaultEncType;
+        if (target instanceof FormData) formData = target;
+        else {
+            formData = new FormData();
+            if (target instanceof URLSearchParams) for (let [name, value] of target)formData.append(name, value);
+            else if (target != null) for (let name of Object.keys(target))formData.append(name, target[name]);
+        }
+    }
+    let { protocol , host  } = window.location;
+    let url = new URL(action, protocol + "//" + host);
+    return {
+        url,
+        method: method.toLowerCase(),
+        encType,
+        formData
+    };
+}
+const _excluded = [
+    "onClick",
+    "relative",
+    "reloadDocument",
+    "replace",
+    "state",
+    "target",
+    "to",
+    "preventScrollReset"
+], _excluded2 = [
+    "aria-current",
+    "caseSensitive",
+    "className",
+    "end",
+    "style",
+    "to",
+    "children"
+], _excluded3 = [
+    "reloadDocument",
+    "replace",
+    "method",
+    "action",
+    "onSubmit",
+    "fetcherKey",
+    "routeId",
+    "relative",
+    "preventScrollReset"
+];
+//#region Routers
+////////////////////////////////////////////////////////////////////////////////
+function createBrowserRouter(routes, opts) {
+    return (0, _router.createRouter)({
+        basename: opts == null ? void 0 : opts.basename,
+        history: (0, _router.createBrowserHistory)({
+            window: opts == null ? void 0 : opts.window
+        }),
+        hydrationData: (opts == null ? void 0 : opts.hydrationData) || parseHydrationData(),
+        routes: (0, _reactRouter.UNSAFE_enhanceManualRouteObjects)(routes)
+    }).initialize();
+}
+function createHashRouter(routes, opts) {
+    return (0, _router.createRouter)({
+        basename: opts == null ? void 0 : opts.basename,
+        history: (0, _router.createHashHistory)({
+            window: opts == null ? void 0 : opts.window
+        }),
+        hydrationData: (opts == null ? void 0 : opts.hydrationData) || parseHydrationData(),
+        routes: (0, _reactRouter.UNSAFE_enhanceManualRouteObjects)(routes)
+    }).initialize();
+}
+function parseHydrationData() {
+    var _window;
+    let state = (_window = window) == null ? void 0 : _window.__staticRouterHydrationData;
+    if (state && state.errors) state = _extends({}, state, {
+        errors: deserializeErrors(state.errors)
+    });
+    return state;
+}
+function deserializeErrors(errors) {
+    if (!errors) return null;
+    let entries = Object.entries(errors);
+    let serialized = {};
+    for (let [key, val] of entries){
+        // Hey you!  If you change this, please change the corresponding logic in
+        // serializeErrors in react-router-dom/server.tsx :)
+        if (val && val.__type === "RouteErrorResponse") serialized[key] = new (0, _router.ErrorResponse)(val.status, val.statusText, val.data, val.internal === true);
+        else if (val && val.__type === "Error") {
+            let error = new Error(val.message); // Wipe away the client-side stack trace.  Nothing to fill it in with
+            // because we don't serialize SSR stack traces for security reasons
+            error.stack = "";
+            serialized[key] = error;
+        } else serialized[key] = val;
+    }
+    return serialized;
+}
+/**
+ * A `<Router>` for use in web browsers. Provides the cleanest URLs.
+ */ function BrowserRouter(_ref) {
+    let { basename , children , window: window1  } = _ref;
+    let historyRef = _react.useRef();
+    if (historyRef.current == null) historyRef.current = (0, _router.createBrowserHistory)({
+        window: window1,
+        v5Compat: true
+    });
+    let history = historyRef.current;
+    let [state, setState] = _react.useState({
+        action: history.action,
+        location: history.location
+    });
+    _react.useLayoutEffect(()=>history.listen(setState), [
+        history
+    ]);
+    return /*#__PURE__*/ _react.createElement((0, _reactRouter.Router), {
+        basename: basename,
+        children: children,
+        location: state.location,
+        navigationType: state.action,
+        navigator: history
+    });
+}
+/**
+ * A `<Router>` for use in web browsers. Stores the location in the hash
+ * portion of the URL so it is not sent to the server.
+ */ function HashRouter(_ref2) {
+    let { basename , children , window: window1  } = _ref2;
+    let historyRef = _react.useRef();
+    if (historyRef.current == null) historyRef.current = (0, _router.createHashHistory)({
+        window: window1,
+        v5Compat: true
+    });
+    let history = historyRef.current;
+    let [state, setState] = _react.useState({
+        action: history.action,
+        location: history.location
+    });
+    _react.useLayoutEffect(()=>history.listen(setState), [
+        history
+    ]);
+    return /*#__PURE__*/ _react.createElement((0, _reactRouter.Router), {
+        basename: basename,
+        children: children,
+        location: state.location,
+        navigationType: state.action,
+        navigator: history
+    });
+}
+/**
+ * A `<Router>` that accepts a pre-instantiated history object. It's important
+ * to note that using your own history object is highly discouraged and may add
+ * two versions of the history library to your bundles unless you use the same
+ * version of the history library that React Router uses internally.
+ */ function HistoryRouter(_ref3) {
+    let { basename , children , history  } = _ref3;
+    const [state, setState] = _react.useState({
+        action: history.action,
+        location: history.location
+    });
+    _react.useLayoutEffect(()=>history.listen(setState), [
+        history
+    ]);
+    return /*#__PURE__*/ _react.createElement((0, _reactRouter.Router), {
+        basename: basename,
+        children: children,
+        location: state.location,
+        navigationType: state.action,
+        navigator: history
+    });
+}
+HistoryRouter.displayName = "unstable_HistoryRouter";
+const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
+/**
+ * The public API for rendering a history-aware <a>.
+ */ const Link = /*#__PURE__*/ _react.forwardRef(function LinkWithRef(_ref4, ref) {
+    let { onClick , relative , reloadDocument , replace , state , target , to , preventScrollReset  } = _ref4, rest = _objectWithoutPropertiesLoose(_ref4, _excluded);
+    // Rendered into <a href> for absolute URLs
+    let absoluteHref;
+    let isExternal = false;
+    if (isBrowser && typeof to === "string" && /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(to)) {
+        absoluteHref = to;
+        let currentUrl = new URL(window.location.href);
+        let targetUrl = to.startsWith("//") ? new URL(currentUrl.protocol + to) : new URL(to);
+        if (targetUrl.origin === currentUrl.origin) // Strip the protocol/origin for same-origin absolute URLs
+        to = targetUrl.pathname + targetUrl.search + targetUrl.hash;
+        else isExternal = true;
+    } // Rendered into <a href> for relative URLs
+    let href = (0, _reactRouter.useHref)(to, {
+        relative
+    });
+    let internalOnClick = useLinkClickHandler(to, {
+        replace,
+        state,
+        target,
+        preventScrollReset,
+        relative
+    });
+    function handleClick(event) {
+        if (onClick) onClick(event);
+        if (!event.defaultPrevented) internalOnClick(event);
+    }
+    return(/*#__PURE__*/ // eslint-disable-next-line jsx-a11y/anchor-has-content
+    _react.createElement("a", _extends({}, rest, {
+        href: absoluteHref || href,
+        onClick: isExternal || reloadDocument ? onClick : handleClick,
+        ref: ref,
+        target: target
+    })));
+});
+Link.displayName = "Link";
+/**
+ * A <Link> wrapper that knows if it's "active" or not.
+ */ const NavLink = /*#__PURE__*/ _react.forwardRef(function NavLinkWithRef(_ref5, ref) {
+    let { "aria-current": ariaCurrentProp = "page" , caseSensitive =false , className: classNameProp = "" , end =false , style: styleProp , to , children  } = _ref5, rest = _objectWithoutPropertiesLoose(_ref5, _excluded2);
+    let path = (0, _reactRouter.useResolvedPath)(to, {
+        relative: rest.relative
+    });
+    let location = (0, _reactRouter.useLocation)();
+    let routerState = _react.useContext((0, _reactRouter.UNSAFE_DataRouterStateContext));
+    let { navigator  } = _react.useContext((0, _reactRouter.UNSAFE_NavigationContext));
+    let toPathname = navigator.encodeLocation ? navigator.encodeLocation(path).pathname : path.pathname;
+    let locationPathname = location.pathname;
+    let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
+    if (!caseSensitive) {
+        locationPathname = locationPathname.toLowerCase();
+        nextLocationPathname = nextLocationPathname ? nextLocationPathname.toLowerCase() : null;
+        toPathname = toPathname.toLowerCase();
+    }
+    let isActive = locationPathname === toPathname || !end && locationPathname.startsWith(toPathname) && locationPathname.charAt(toPathname.length) === "/";
+    let isPending = nextLocationPathname != null && (nextLocationPathname === toPathname || !end && nextLocationPathname.startsWith(toPathname) && nextLocationPathname.charAt(toPathname.length) === "/");
+    let ariaCurrent = isActive ? ariaCurrentProp : undefined;
+    let className;
+    if (typeof classNameProp === "function") className = classNameProp({
+        isActive,
+        isPending
+    });
+    else // If the className prop is not a function, we use a default `active`
+    // class for <NavLink />s that are active. In v5 `active` was the default
+    // value for `activeClassName`, but we are removing that API and can still
+    // use the old default behavior for a cleaner upgrade path and keep the
+    // simple styling rules working as they currently do.
+    className = [
+        classNameProp,
+        isActive ? "active" : null,
+        isPending ? "pending" : null
+    ].filter(Boolean).join(" ");
+    let style = typeof styleProp === "function" ? styleProp({
+        isActive,
+        isPending
+    }) : styleProp;
+    return /*#__PURE__*/ _react.createElement(Link, _extends({}, rest, {
+        "aria-current": ariaCurrent,
+        className: className,
+        ref: ref,
+        style: style,
+        to: to
+    }), typeof children === "function" ? children({
+        isActive,
+        isPending
+    }) : children);
+});
+NavLink.displayName = "NavLink";
+/**
+ * A `@remix-run/router`-aware `<form>`. It behaves like a normal form except
+ * that the interaction with the server is with `fetch` instead of new document
+ * requests, allowing components to add nicer UX to the page as the form is
+ * submitted and returns with data.
+ */ const Form = /*#__PURE__*/ _react.forwardRef((props, ref)=>{
+    return /*#__PURE__*/ _react.createElement(FormImpl, _extends({}, props, {
+        ref: ref
+    }));
+});
+Form.displayName = "Form";
+const FormImpl = /*#__PURE__*/ _react.forwardRef((_ref6, forwardedRef)=>{
+    let { reloadDocument , replace , method =defaultMethod , action , onSubmit , fetcherKey , routeId , relative , preventScrollReset  } = _ref6, props = _objectWithoutPropertiesLoose(_ref6, _excluded3);
+    let submit = useSubmitImpl(fetcherKey, routeId);
+    let formMethod = method.toLowerCase() === "get" ? "get" : "post";
+    let formAction = useFormAction(action, {
+        relative
+    });
+    let submitHandler = (event)=>{
+        onSubmit && onSubmit(event);
+        if (event.defaultPrevented) return;
+        event.preventDefault();
+        let submitter = event.nativeEvent.submitter;
+        let submitMethod = (submitter == null ? void 0 : submitter.getAttribute("formmethod")) || method;
+        submit(submitter || event.currentTarget, {
+            method: submitMethod,
+            replace,
+            relative,
+            preventScrollReset
+        });
+    };
+    return /*#__PURE__*/ _react.createElement("form", _extends({
+        ref: forwardedRef,
+        method: formMethod,
+        action: formAction,
+        onSubmit: reloadDocument ? onSubmit : submitHandler
+    }, props));
+});
+FormImpl.displayName = "FormImpl";
+/**
+ * This component will emulate the browser's scroll restoration on location
+ * changes.
+ */ function ScrollRestoration(_ref7) {
+    let { getKey , storageKey  } = _ref7;
+    useScrollRestoration({
+        getKey,
+        storageKey
+    });
+    return null;
+}
+ScrollRestoration.displayName = "ScrollRestoration";
+////////////////////////////////////////////////////////////////////////////////
+//#region Hooks
+////////////////////////////////////////////////////////////////////////////////
+var DataRouterHook;
+(function(DataRouterHook) {
+    DataRouterHook["UseScrollRestoration"] = "useScrollRestoration";
+    DataRouterHook["UseSubmitImpl"] = "useSubmitImpl";
+    DataRouterHook["UseFetcher"] = "useFetcher";
+})(DataRouterHook || (DataRouterHook = {}));
+var DataRouterStateHook;
+(function(DataRouterStateHook) {
+    DataRouterStateHook["UseFetchers"] = "useFetchers";
+    DataRouterStateHook["UseScrollRestoration"] = "useScrollRestoration";
+})(DataRouterStateHook || (DataRouterStateHook = {}));
+function getDataRouterConsoleError(hookName) {
+    return hookName + " must be used within a data router.  See https://reactrouter.com/routers/picking-a-router.";
+}
+function useDataRouterContext(hookName) {
+    let ctx = _react.useContext((0, _reactRouter.UNSAFE_DataRouterContext));
+    !ctx && (0, _router.invariant)(false, getDataRouterConsoleError(hookName));
+    return ctx;
+}
+function useDataRouterState(hookName) {
+    let state = _react.useContext((0, _reactRouter.UNSAFE_DataRouterStateContext));
+    !state && (0, _router.invariant)(false, getDataRouterConsoleError(hookName));
+    return state;
+}
+/**
+ * Handles the click behavior for router `<Link>` components. This is useful if
+ * you need to create custom `<Link>` components with the same click behavior we
+ * use in our exported `<Link>`.
+ */ function useLinkClickHandler(to, _temp) {
+    let { target , replace: replaceProp , state , preventScrollReset , relative  } = _temp === void 0 ? {} : _temp;
+    let navigate = (0, _reactRouter.useNavigate)();
+    let location = (0, _reactRouter.useLocation)();
+    let path = (0, _reactRouter.useResolvedPath)(to, {
+        relative
+    });
+    return _react.useCallback((event)=>{
+        if (shouldProcessLinkClick(event, target)) {
+            event.preventDefault(); // If the URL hasn't changed, a regular <a> will do a replace instead of
+            // a push, so do the same here unless the replace prop is explicitly set
+            let replace = replaceProp !== undefined ? replaceProp : (0, _reactRouter.createPath)(location) === (0, _reactRouter.createPath)(path);
+            navigate(to, {
+                replace,
+                state,
+                preventScrollReset,
+                relative
+            });
+        }
+    }, [
+        location,
+        navigate,
+        path,
+        replaceProp,
+        state,
+        target,
+        to,
+        preventScrollReset,
+        relative
+    ]);
+}
+/**
+ * A convenient wrapper for reading and writing search parameters via the
+ * URLSearchParams interface.
+ */ function useSearchParams(defaultInit) {
+    warning(typeof URLSearchParams !== "undefined", "You cannot use the `useSearchParams` hook in a browser that does not support the URLSearchParams API. If you need to support Internet Explorer 11, we recommend you load a polyfill such as https://github.com/ungap/url-search-params\n\nIf you're unsure how to load polyfills, we recommend you check out https://polyfill.io/v3/ which provides some recommendations about how to load polyfills only for users that need them, instead of for every user.");
+    let defaultSearchParamsRef = _react.useRef(createSearchParams(defaultInit));
+    let hasSetSearchParamsRef = _react.useRef(false);
+    let location = (0, _reactRouter.useLocation)();
+    let searchParams = _react.useMemo(()=>// Once we call that we want those to take precedence, otherwise you can't
+        // remove a param with setSearchParams({}) if it has an initial value
+        getSearchParamsForLocation(location.search, hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current), [
+        location.search
+    ]);
+    let navigate = (0, _reactRouter.useNavigate)();
+    let setSearchParams = _react.useCallback((nextInit, navigateOptions)=>{
+        const newSearchParams = createSearchParams(typeof nextInit === "function" ? nextInit(searchParams) : nextInit);
+        hasSetSearchParamsRef.current = true;
+        navigate("?" + newSearchParams, navigateOptions);
+    }, [
+        navigate,
+        searchParams
+    ]);
+    return [
+        searchParams,
+        setSearchParams
     ];
 }
-const Col = /*#__PURE__*/ _react.forwardRef(// Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
-(props, ref)=>{
-    const [{ className , ...colProps }, { as: Component = "div" , bsPrefix , spans  }] = useCol(props);
-    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(Component, {
-        ...colProps,
-        ref: ref,
-        className: (0, _classnamesDefault.default)(className, !spans.length && bsPrefix)
+/**
+ * Returns a function that may be used to programmatically submit a form (or
+ * some arbitrary data) to the server.
+ */ function useSubmit() {
+    return useSubmitImpl();
+}
+function useSubmitImpl(fetcherKey, routeId) {
+    let { router  } = useDataRouterContext(DataRouterHook.UseSubmitImpl);
+    let defaultAction = useFormAction();
+    return _react.useCallback(function(target, options) {
+        if (options === void 0) options = {};
+        if (typeof document === "undefined") throw new Error("You are calling submit during the server render. Try calling submit within a `useEffect` or callback instead.");
+        let { method , encType , formData , url  } = getFormSubmissionInfo(target, defaultAction, options);
+        let href = url.pathname + url.search;
+        let opts = {
+            replace: options.replace,
+            preventScrollReset: options.preventScrollReset,
+            formData,
+            formMethod: method,
+            formEncType: encType
+        };
+        if (fetcherKey) {
+            !(routeId != null) && (0, _router.invariant)(false, "No routeId available for useFetcher()");
+            router.fetch(fetcherKey, routeId, href, opts);
+        } else router.navigate(href, opts);
+    }, [
+        defaultAction,
+        router,
+        fetcherKey,
+        routeId
+    ]);
+}
+function useFormAction(action, _temp2) {
+    let { relative  } = _temp2 === void 0 ? {} : _temp2;
+    let { basename  } = _react.useContext((0, _reactRouter.UNSAFE_NavigationContext));
+    let routeContext = _react.useContext((0, _reactRouter.UNSAFE_RouteContext));
+    !routeContext && (0, _router.invariant)(false, "useFormAction must be used inside a RouteContext");
+    let [match] = routeContext.matches.slice(-1); // Shallow clone path so we can modify it below, otherwise we modify the
+    // object referenced by useMemo inside useResolvedPath
+    let path = _extends({}, (0, _reactRouter.useResolvedPath)(action ? action : ".", {
+        relative
+    })); // Previously we set the default action to ".". The problem with this is that
+    // `useResolvedPath(".")` excludes search params and the hash of the resolved
+    // URL. This is the intended behavior of when "." is specifically provided as
+    // the form action, but inconsistent w/ browsers when the action is omitted.
+    // https://github.com/remix-run/remix/issues/927
+    let location = (0, _reactRouter.useLocation)();
+    if (action == null) {
+        // Safe to write to these directly here since if action was undefined, we
+        // would have called useResolvedPath(".") which will never include a search
+        // or hash
+        path.search = location.search;
+        path.hash = location.hash; // When grabbing search params from the URL, remove the automatically
+        // inserted ?index param so we match the useResolvedPath search behavior
+        // which would not include ?index
+        if (match.route.index) {
+            let params = new URLSearchParams(path.search);
+            params.delete("index");
+            path.search = params.toString() ? "?" + params.toString() : "";
+        }
+    }
+    if ((!action || action === ".") && match.route.index) path.search = path.search ? path.search.replace(/^\?/, "?index&") : "?index";
+     // If we're operating within a basename, prepend it to the pathname prior
+    // to creating the form action.  If this is a root navigation, then just use
+    // the raw basename which allows the basename to have full control over the
+    // presence of a trailing slash on root actions
+    if (basename !== "/") path.pathname = path.pathname === "/" ? basename : (0, _router.joinPaths)([
+        basename,
+        path.pathname
+    ]);
+    return (0, _reactRouter.createPath)(path);
+}
+function createFetcherForm(fetcherKey, routeId) {
+    let FetcherForm = /*#__PURE__*/ _react.forwardRef((props, ref)=>{
+        return /*#__PURE__*/ _react.createElement(FormImpl, _extends({}, props, {
+            ref: ref,
+            fetcherKey: fetcherKey,
+            routeId: routeId
+        }));
     });
-});
-Col.displayName = "Col";
-exports.default = Col;
+    FetcherForm.displayName = "fetcher.Form";
+    return FetcherForm;
+}
+let fetcherId = 0;
+/**
+ * Interacts with route loaders and actions without causing a navigation. Great
+ * for any interaction that stays on the same page.
+ */ function useFetcher() {
+    var _route$matches;
+    let { router  } = useDataRouterContext(DataRouterHook.UseFetcher);
+    let route = _react.useContext((0, _reactRouter.UNSAFE_RouteContext));
+    !route && (0, _router.invariant)(false, "useFetcher must be used inside a RouteContext");
+    let routeId = (_route$matches = route.matches[route.matches.length - 1]) == null ? void 0 : _route$matches.route.id;
+    !(routeId != null) && (0, _router.invariant)(false, 'useFetcher can only be used on routes that contain a unique "id"');
+    let [fetcherKey] = _react.useState(()=>String(++fetcherId));
+    let [Form] = _react.useState(()=>{
+        !routeId && (0, _router.invariant)(false, "No routeId available for fetcher.Form()");
+        return createFetcherForm(fetcherKey, routeId);
+    });
+    let [load] = _react.useState(()=>(href)=>{
+            !router && (0, _router.invariant)(false, "No router available for fetcher.load()");
+            !routeId && (0, _router.invariant)(false, "No routeId available for fetcher.load()");
+            router.fetch(fetcherKey, routeId, href);
+        });
+    let submit = useSubmitImpl(fetcherKey, routeId);
+    let fetcher = router.getFetcher(fetcherKey);
+    let fetcherWithComponents = _react.useMemo(()=>_extends({
+            Form,
+            submit,
+            load
+        }, fetcher), [
+        fetcher,
+        Form,
+        submit,
+        load
+    ]);
+    _react.useEffect(()=>{
+        // Is this busted when the React team gets real weird and calls effects
+        // twice on mount?  We really just need to garbage collect here when this
+        // fetcher is no longer around.
+        return ()=>{
+            if (!router) {
+                console.warn("No fetcher available to clean up from useFetcher()");
+                return;
+            }
+            router.deleteFetcher(fetcherKey);
+        };
+    }, [
+        router,
+        fetcherKey
+    ]);
+    return fetcherWithComponents;
+}
+/**
+ * Provides all fetchers currently on the page. Useful for layouts and parent
+ * routes that need to provide pending/optimistic UI regarding the fetch.
+ */ function useFetchers() {
+    let state = useDataRouterState(DataRouterStateHook.UseFetchers);
+    return [
+        ...state.fetchers.values()
+    ];
+}
+const SCROLL_RESTORATION_STORAGE_KEY = "react-router-scroll-positions";
+let savedScrollPositions = {};
+/**
+ * When rendered inside a RouterProvider, will restore scroll positions on navigations
+ */ function useScrollRestoration(_temp3) {
+    let { getKey , storageKey  } = _temp3 === void 0 ? {} : _temp3;
+    let { router  } = useDataRouterContext(DataRouterHook.UseScrollRestoration);
+    let { restoreScrollPosition , preventScrollReset  } = useDataRouterState(DataRouterStateHook.UseScrollRestoration);
+    let location = (0, _reactRouter.useLocation)();
+    let matches = (0, _reactRouter.useMatches)();
+    let navigation = (0, _reactRouter.useNavigation)(); // Trigger manual scroll restoration while we're active
+    _react.useEffect(()=>{
+        window.history.scrollRestoration = "manual";
+        return ()=>{
+            window.history.scrollRestoration = "auto";
+        };
+    }, []); // Save positions on pagehide
+    usePageHide(_react.useCallback(()=>{
+        if (navigation.state === "idle") {
+            let key = (getKey ? getKey(location, matches) : null) || location.key;
+            savedScrollPositions[key] = window.scrollY;
+        }
+        sessionStorage.setItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY, JSON.stringify(savedScrollPositions));
+        window.history.scrollRestoration = "auto";
+    }, [
+        storageKey,
+        getKey,
+        navigation.state,
+        location,
+        matches
+    ])); // Read in any saved scroll locations
+    if (typeof document !== "undefined") {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        _react.useLayoutEffect(()=>{
+            try {
+                let sessionPositions = sessionStorage.getItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY);
+                if (sessionPositions) savedScrollPositions = JSON.parse(sessionPositions);
+            } catch (e) {}
+        }, [
+            storageKey
+        ]); // Enable scroll restoration in the router
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        _react.useLayoutEffect(()=>{
+            let disableScrollRestoration = router == null ? void 0 : router.enableScrollRestoration(savedScrollPositions, ()=>window.scrollY, getKey);
+            return ()=>disableScrollRestoration && disableScrollRestoration();
+        }, [
+            router,
+            getKey
+        ]); // Restore scrolling when state.restoreScrollPosition changes
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        _react.useLayoutEffect(()=>{
+            // Explicit false means don't do anything (used for submissions)
+            if (restoreScrollPosition === false) return;
+             // been here before, scroll to it
+            if (typeof restoreScrollPosition === "number") {
+                window.scrollTo(0, restoreScrollPosition);
+                return;
+            } // try to scroll to the hash
+            if (location.hash) {
+                let el = document.getElementById(location.hash.slice(1));
+                if (el) {
+                    el.scrollIntoView();
+                    return;
+                }
+            } // Don't reset if this navigation opted out
+            if (preventScrollReset === true) return;
+             // otherwise go to the top on new locations
+            window.scrollTo(0, 0);
+        }, [
+            location,
+            restoreScrollPosition,
+            preventScrollReset
+        ]);
+    }
+}
+/**
+ * Setup a callback to be fired on the window's `beforeunload` event. This is
+ * useful for saving some data to `window.localStorage` just before the page
+ * refreshes.
+ *
+ * Note: The `callback` argument should be a function created with
+ * `React.useCallback()`.
+ */ function useBeforeUnload(callback, options) {
+    let { capture  } = options || {};
+    _react.useEffect(()=>{
+        let opts = capture != null ? {
+            capture
+        } : undefined;
+        window.addEventListener("beforeunload", callback, opts);
+        return ()=>{
+            window.removeEventListener("beforeunload", callback, opts);
+        };
+    }, [
+        callback,
+        capture
+    ]);
+}
+/**
+ * Setup a callback to be fired on the window's `pagehide` event. This is
+ * useful for saving some data to `window.localStorage` just before the page
+ * refreshes.  This event is better supported than beforeunload across browsers.
+ *
+ * Note: The `callback` argument should be a function created with
+ * `React.useCallback()`.
+ */ function usePageHide(callback, options) {
+    let { capture  } = options || {};
+    _react.useEffect(()=>{
+        let opts = capture != null ? {
+            capture
+        } : undefined;
+        window.addEventListener("pagehide", callback, opts);
+        return ()=>{
+            window.removeEventListener("pagehide", callback, opts);
+        };
+    }, [
+        callback,
+        capture
+    ]);
+}
+/**
+ * Wrapper around useBlocker to show a window.confirm prompt to users instead
+ * of building a custom UI with useBlocker.
+ *
+ * Warning: This has *a lot of rough edges* and behaves very differently (and
+ * very incorrectly in some cases) across browsers if user click addition
+ * back/forward navigations while the confirm is open.  Use at your own risk.
+ */ function usePrompt(_ref8) {
+    let { when , message  } = _ref8;
+    let blocker = (0, _reactRouter.unstable_useBlocker)(when);
+    _react.useEffect(()=>{
+        if (blocker.state === "blocked" && !when) blocker.reset();
+    }, [
+        blocker,
+        when
+    ]);
+    _react.useEffect(()=>{
+        if (blocker.state === "blocked") {
+            let proceed = window.confirm(message);
+            if (proceed) setTimeout(blocker.proceed, 0);
+            else blocker.reset();
+        }
+    }, [
+        blocker,
+        message
+    ]);
+}
+////////////////////////////////////////////////////////////////////////////////
+//#region Utils
+////////////////////////////////////////////////////////////////////////////////
+function warning(cond, message) {
+    if (!cond) {
+        // eslint-disable-next-line no-console
+        if (typeof console !== "undefined") console.warn(message);
+        try {
+            // Welcome to debugging React Router!
+            //
+            // This error is thrown as a convenience so you can more easily
+            // find the source for a warning that appears in the console by
+            // enabling "pause on exceptions" in your JavaScript debugger.
+            throw new Error(message); // eslint-disable-next-line no-empty
+        } catch (e) {}
+    }
+} //#endregion
 
-},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup"}],"dbWyW":[function(require,module,exports) {
+},{"react":"21dqq","react-router":"dbWyW","@remix-run/router":"5ncDG","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup"}],"dbWyW":[function(require,module,exports) {
 /**
  * React Router v6.8.1
  *
@@ -33939,909 +34579,239 @@ function getTargetMatch(matches, location) {
     return pathMatches[pathMatches.length - 1];
 } //#endregion
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"bgTup"}],"9xmpe":[function(require,module,exports) {
-/**
- * React Router DOM v6.8.1
- *
- * Copyright (c) Remix Software Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.md file in the root directory of this source tree.
- *
- * @license MIT
- */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "AbortedDeferredError", ()=>(0, _reactRouter.AbortedDeferredError));
-parcelHelpers.export(exports, "Await", ()=>(0, _reactRouter.Await));
-parcelHelpers.export(exports, "MemoryRouter", ()=>(0, _reactRouter.MemoryRouter));
-parcelHelpers.export(exports, "Navigate", ()=>(0, _reactRouter.Navigate));
-parcelHelpers.export(exports, "NavigationType", ()=>(0, _reactRouter.NavigationType));
-parcelHelpers.export(exports, "Outlet", ()=>(0, _reactRouter.Outlet));
-parcelHelpers.export(exports, "Route", ()=>(0, _reactRouter.Route));
-parcelHelpers.export(exports, "Router", ()=>(0, _reactRouter.Router));
-parcelHelpers.export(exports, "RouterProvider", ()=>(0, _reactRouter.RouterProvider));
-parcelHelpers.export(exports, "Routes", ()=>(0, _reactRouter.Routes));
-parcelHelpers.export(exports, "UNSAFE_DataRouterContext", ()=>(0, _reactRouter.UNSAFE_DataRouterContext));
-parcelHelpers.export(exports, "UNSAFE_DataRouterStateContext", ()=>(0, _reactRouter.UNSAFE_DataRouterStateContext));
-parcelHelpers.export(exports, "UNSAFE_LocationContext", ()=>(0, _reactRouter.UNSAFE_LocationContext));
-parcelHelpers.export(exports, "UNSAFE_NavigationContext", ()=>(0, _reactRouter.UNSAFE_NavigationContext));
-parcelHelpers.export(exports, "UNSAFE_RouteContext", ()=>(0, _reactRouter.UNSAFE_RouteContext));
-parcelHelpers.export(exports, "UNSAFE_enhanceManualRouteObjects", ()=>(0, _reactRouter.UNSAFE_enhanceManualRouteObjects));
-parcelHelpers.export(exports, "createMemoryRouter", ()=>(0, _reactRouter.createMemoryRouter));
-parcelHelpers.export(exports, "createPath", ()=>(0, _reactRouter.createPath));
-parcelHelpers.export(exports, "createRoutesFromChildren", ()=>(0, _reactRouter.createRoutesFromChildren));
-parcelHelpers.export(exports, "createRoutesFromElements", ()=>(0, _reactRouter.createRoutesFromElements));
-parcelHelpers.export(exports, "defer", ()=>(0, _reactRouter.defer));
-parcelHelpers.export(exports, "generatePath", ()=>(0, _reactRouter.generatePath));
-parcelHelpers.export(exports, "isRouteErrorResponse", ()=>(0, _reactRouter.isRouteErrorResponse));
-parcelHelpers.export(exports, "json", ()=>(0, _reactRouter.json));
-parcelHelpers.export(exports, "matchPath", ()=>(0, _reactRouter.matchPath));
-parcelHelpers.export(exports, "matchRoutes", ()=>(0, _reactRouter.matchRoutes));
-parcelHelpers.export(exports, "parsePath", ()=>(0, _reactRouter.parsePath));
-parcelHelpers.export(exports, "redirect", ()=>(0, _reactRouter.redirect));
-parcelHelpers.export(exports, "renderMatches", ()=>(0, _reactRouter.renderMatches));
-parcelHelpers.export(exports, "resolvePath", ()=>(0, _reactRouter.resolvePath));
-parcelHelpers.export(exports, "unstable_useBlocker", ()=>(0, _reactRouter.unstable_useBlocker));
-parcelHelpers.export(exports, "useActionData", ()=>(0, _reactRouter.useActionData));
-parcelHelpers.export(exports, "useAsyncError", ()=>(0, _reactRouter.useAsyncError));
-parcelHelpers.export(exports, "useAsyncValue", ()=>(0, _reactRouter.useAsyncValue));
-parcelHelpers.export(exports, "useHref", ()=>(0, _reactRouter.useHref));
-parcelHelpers.export(exports, "useInRouterContext", ()=>(0, _reactRouter.useInRouterContext));
-parcelHelpers.export(exports, "useLoaderData", ()=>(0, _reactRouter.useLoaderData));
-parcelHelpers.export(exports, "useLocation", ()=>(0, _reactRouter.useLocation));
-parcelHelpers.export(exports, "useMatch", ()=>(0, _reactRouter.useMatch));
-parcelHelpers.export(exports, "useMatches", ()=>(0, _reactRouter.useMatches));
-parcelHelpers.export(exports, "useNavigate", ()=>(0, _reactRouter.useNavigate));
-parcelHelpers.export(exports, "useNavigation", ()=>(0, _reactRouter.useNavigation));
-parcelHelpers.export(exports, "useNavigationType", ()=>(0, _reactRouter.useNavigationType));
-parcelHelpers.export(exports, "useOutlet", ()=>(0, _reactRouter.useOutlet));
-parcelHelpers.export(exports, "useOutletContext", ()=>(0, _reactRouter.useOutletContext));
-parcelHelpers.export(exports, "useParams", ()=>(0, _reactRouter.useParams));
-parcelHelpers.export(exports, "useResolvedPath", ()=>(0, _reactRouter.useResolvedPath));
-parcelHelpers.export(exports, "useRevalidator", ()=>(0, _reactRouter.useRevalidator));
-parcelHelpers.export(exports, "useRouteError", ()=>(0, _reactRouter.useRouteError));
-parcelHelpers.export(exports, "useRouteLoaderData", ()=>(0, _reactRouter.useRouteLoaderData));
-parcelHelpers.export(exports, "useRoutes", ()=>(0, _reactRouter.useRoutes));
-parcelHelpers.export(exports, "BrowserRouter", ()=>BrowserRouter);
-parcelHelpers.export(exports, "Form", ()=>Form);
-parcelHelpers.export(exports, "HashRouter", ()=>HashRouter);
-parcelHelpers.export(exports, "Link", ()=>Link);
-parcelHelpers.export(exports, "NavLink", ()=>NavLink);
-parcelHelpers.export(exports, "ScrollRestoration", ()=>ScrollRestoration);
-parcelHelpers.export(exports, "UNSAFE_useScrollRestoration", ()=>useScrollRestoration);
-parcelHelpers.export(exports, "createBrowserRouter", ()=>createBrowserRouter);
-parcelHelpers.export(exports, "createHashRouter", ()=>createHashRouter);
-parcelHelpers.export(exports, "createSearchParams", ()=>createSearchParams);
-parcelHelpers.export(exports, "unstable_HistoryRouter", ()=>HistoryRouter);
-parcelHelpers.export(exports, "unstable_usePrompt", ()=>usePrompt);
-parcelHelpers.export(exports, "useBeforeUnload", ()=>useBeforeUnload);
-parcelHelpers.export(exports, "useFetcher", ()=>useFetcher);
-parcelHelpers.export(exports, "useFetchers", ()=>useFetchers);
-parcelHelpers.export(exports, "useFormAction", ()=>useFormAction);
-parcelHelpers.export(exports, "useLinkClickHandler", ()=>useLinkClickHandler);
-parcelHelpers.export(exports, "useSearchParams", ()=>useSearchParams);
-parcelHelpers.export(exports, "useSubmit", ()=>useSubmit);
-var _react = require("react");
-var _reactRouter = require("react-router");
-var _router = require("@remix-run/router");
-function _extends() {
-    _extends = Object.assign ? Object.assign.bind() : function(target) {
-        for(var i = 1; i < arguments.length; i++){
-            var source = arguments[i];
-            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
-        }
-        return target;
-    };
-    return _extends.apply(this, arguments);
-}
-function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {};
-    var target = {};
-    var sourceKeys = Object.keys(source);
-    var key, i;
-    for(i = 0; i < sourceKeys.length; i++){
-        key = sourceKeys[i];
-        if (excluded.indexOf(key) >= 0) continue;
-        target[key] = source[key];
-    }
-    return target;
-}
-const defaultMethod = "get";
-const defaultEncType = "application/x-www-form-urlencoded";
-function isHtmlElement(object) {
-    return object != null && typeof object.tagName === "string";
-}
-function isButtonElement(object) {
-    return isHtmlElement(object) && object.tagName.toLowerCase() === "button";
-}
-function isFormElement(object) {
-    return isHtmlElement(object) && object.tagName.toLowerCase() === "form";
-}
-function isInputElement(object) {
-    return isHtmlElement(object) && object.tagName.toLowerCase() === "input";
-}
-function isModifiedEvent(event) {
-    return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
-}
-function shouldProcessLinkClick(event, target) {
-    return event.button === 0 && (!target || target === "_self") && // Let browser handle "target=_blank" etc.
-    !isModifiedEvent(event) // Ignore clicks with modifier keys
-    ;
-}
-/**
- * Creates a URLSearchParams object using the given initializer.
- *
- * This is identical to `new URLSearchParams(init)` except it also
- * supports arrays as values in the object form of the initializer
- * instead of just strings. This is convenient when you need multiple
- * values for a given key, but don't want to use an array initializer.
- *
- * For example, instead of:
- *
- *   let searchParams = new URLSearchParams([
- *     ['sort', 'name'],
- *     ['sort', 'price']
- *   ]);
- *
- * you can do:
- *
- *   let searchParams = createSearchParams({
- *     sort: ['name', 'price']
- *   });
- */ function createSearchParams(init) {
-    if (init === void 0) init = "";
-    return new URLSearchParams(typeof init === "string" || Array.isArray(init) || init instanceof URLSearchParams ? init : Object.keys(init).reduce((memo, key)=>{
-        let value = init[key];
-        return memo.concat(Array.isArray(value) ? value.map((v)=>[
-                key,
-                v
-            ]) : [
-            [
-                key,
-                value
-            ]
-        ]);
-    }, []));
-}
-function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
-    let searchParams = createSearchParams(locationSearch);
-    if (defaultSearchParams) {
-        for (let key of defaultSearchParams.keys())if (!searchParams.has(key)) defaultSearchParams.getAll(key).forEach((value)=>{
-            searchParams.append(key, value);
-        });
-    }
-    return searchParams;
-}
-function getFormSubmissionInfo(target, defaultAction, options) {
-    let method;
-    let action;
-    let encType;
-    let formData;
-    if (isFormElement(target)) {
-        let submissionTrigger = options.submissionTrigger;
-        method = options.method || target.getAttribute("method") || defaultMethod;
-        action = options.action || target.getAttribute("action") || defaultAction;
-        encType = options.encType || target.getAttribute("enctype") || defaultEncType;
-        formData = new FormData(target);
-        if (submissionTrigger && submissionTrigger.name) formData.append(submissionTrigger.name, submissionTrigger.value);
-    } else if (isButtonElement(target) || isInputElement(target) && (target.type === "submit" || target.type === "image")) {
-        let form = target.form;
-        if (form == null) throw new Error('Cannot submit a <button> or <input type="submit"> without a <form>');
-         // <button>/<input type="submit"> may override attributes of <form>
-        method = options.method || target.getAttribute("formmethod") || form.getAttribute("method") || defaultMethod;
-        action = options.action || target.getAttribute("formaction") || form.getAttribute("action") || defaultAction;
-        encType = options.encType || target.getAttribute("formenctype") || form.getAttribute("enctype") || defaultEncType;
-        formData = new FormData(form); // Include name + value from a <button>, appending in case the button name
-        // matches an existing input name
-        if (target.name) formData.append(target.name, target.value);
-    } else if (isHtmlElement(target)) throw new Error('Cannot submit element that is not <form>, <button>, or <input type="submit|image">');
-    else {
-        method = options.method || defaultMethod;
-        action = options.action || defaultAction;
-        encType = options.encType || defaultEncType;
-        if (target instanceof FormData) formData = target;
-        else {
-            formData = new FormData();
-            if (target instanceof URLSearchParams) for (let [name, value] of target)formData.append(name, value);
-            else if (target != null) for (let name of Object.keys(target))formData.append(name, target[name]);
-        }
-    }
-    let { protocol , host  } = window.location;
-    let url = new URL(action, protocol + "//" + host);
-    return {
-        url,
-        method: method.toLowerCase(),
-        encType,
-        formData
-    };
-}
-const _excluded = [
-    "onClick",
-    "relative",
-    "reloadDocument",
-    "replace",
-    "state",
-    "target",
-    "to",
-    "preventScrollReset"
-], _excluded2 = [
-    "aria-current",
-    "caseSensitive",
-    "className",
-    "end",
-    "style",
-    "to",
-    "children"
-], _excluded3 = [
-    "reloadDocument",
-    "replace",
-    "method",
-    "action",
-    "onSubmit",
-    "fetcherKey",
-    "routeId",
-    "relative",
-    "preventScrollReset"
-];
-//#region Routers
-////////////////////////////////////////////////////////////////////////////////
-function createBrowserRouter(routes, opts) {
-    return (0, _router.createRouter)({
-        basename: opts == null ? void 0 : opts.basename,
-        history: (0, _router.createBrowserHistory)({
-            window: opts == null ? void 0 : opts.window
-        }),
-        hydrationData: (opts == null ? void 0 : opts.hydrationData) || parseHydrationData(),
-        routes: (0, _reactRouter.UNSAFE_enhanceManualRouteObjects)(routes)
-    }).initialize();
-}
-function createHashRouter(routes, opts) {
-    return (0, _router.createRouter)({
-        basename: opts == null ? void 0 : opts.basename,
-        history: (0, _router.createHashHistory)({
-            window: opts == null ? void 0 : opts.window
-        }),
-        hydrationData: (opts == null ? void 0 : opts.hydrationData) || parseHydrationData(),
-        routes: (0, _reactRouter.UNSAFE_enhanceManualRouteObjects)(routes)
-    }).initialize();
-}
-function parseHydrationData() {
-    var _window;
-    let state = (_window = window) == null ? void 0 : _window.__staticRouterHydrationData;
-    if (state && state.errors) state = _extends({}, state, {
-        errors: deserializeErrors(state.errors)
-    });
-    return state;
-}
-function deserializeErrors(errors) {
-    if (!errors) return null;
-    let entries = Object.entries(errors);
-    let serialized = {};
-    for (let [key, val] of entries){
-        // Hey you!  If you change this, please change the corresponding logic in
-        // serializeErrors in react-router-dom/server.tsx :)
-        if (val && val.__type === "RouteErrorResponse") serialized[key] = new (0, _router.ErrorResponse)(val.status, val.statusText, val.data, val.internal === true);
-        else if (val && val.__type === "Error") {
-            let error = new Error(val.message); // Wipe away the client-side stack trace.  Nothing to fill it in with
-            // because we don't serialize SSR stack traces for security reasons
-            error.stack = "";
-            serialized[key] = error;
-        } else serialized[key] = val;
-    }
-    return serialized;
-}
-/**
- * A `<Router>` for use in web browsers. Provides the cleanest URLs.
- */ function BrowserRouter(_ref) {
-    let { basename , children , window: window1  } = _ref;
-    let historyRef = _react.useRef();
-    if (historyRef.current == null) historyRef.current = (0, _router.createBrowserHistory)({
-        window: window1,
-        v5Compat: true
-    });
-    let history = historyRef.current;
-    let [state, setState] = _react.useState({
-        action: history.action,
-        location: history.location
-    });
-    _react.useLayoutEffect(()=>history.listen(setState), [
-        history
-    ]);
-    return /*#__PURE__*/ _react.createElement((0, _reactRouter.Router), {
-        basename: basename,
-        children: children,
-        location: state.location,
-        navigationType: state.action,
-        navigator: history
-    });
-}
-/**
- * A `<Router>` for use in web browsers. Stores the location in the hash
- * portion of the URL so it is not sent to the server.
- */ function HashRouter(_ref2) {
-    let { basename , children , window: window1  } = _ref2;
-    let historyRef = _react.useRef();
-    if (historyRef.current == null) historyRef.current = (0, _router.createHashHistory)({
-        window: window1,
-        v5Compat: true
-    });
-    let history = historyRef.current;
-    let [state, setState] = _react.useState({
-        action: history.action,
-        location: history.location
-    });
-    _react.useLayoutEffect(()=>history.listen(setState), [
-        history
-    ]);
-    return /*#__PURE__*/ _react.createElement((0, _reactRouter.Router), {
-        basename: basename,
-        children: children,
-        location: state.location,
-        navigationType: state.action,
-        navigator: history
-    });
-}
-/**
- * A `<Router>` that accepts a pre-instantiated history object. It's important
- * to note that using your own history object is highly discouraged and may add
- * two versions of the history library to your bundles unless you use the same
- * version of the history library that React Router uses internally.
- */ function HistoryRouter(_ref3) {
-    let { basename , children , history  } = _ref3;
-    const [state, setState] = _react.useState({
-        action: history.action,
-        location: history.location
-    });
-    _react.useLayoutEffect(()=>history.listen(setState), [
-        history
-    ]);
-    return /*#__PURE__*/ _react.createElement((0, _reactRouter.Router), {
-        basename: basename,
-        children: children,
-        location: state.location,
-        navigationType: state.action,
-        navigator: history
-    });
-}
-HistoryRouter.displayName = "unstable_HistoryRouter";
-const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
-/**
- * The public API for rendering a history-aware <a>.
- */ const Link = /*#__PURE__*/ _react.forwardRef(function LinkWithRef(_ref4, ref) {
-    let { onClick , relative , reloadDocument , replace , state , target , to , preventScrollReset  } = _ref4, rest = _objectWithoutPropertiesLoose(_ref4, _excluded);
-    // Rendered into <a href> for absolute URLs
-    let absoluteHref;
-    let isExternal = false;
-    if (isBrowser && typeof to === "string" && /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(to)) {
-        absoluteHref = to;
-        let currentUrl = new URL(window.location.href);
-        let targetUrl = to.startsWith("//") ? new URL(currentUrl.protocol + to) : new URL(to);
-        if (targetUrl.origin === currentUrl.origin) // Strip the protocol/origin for same-origin absolute URLs
-        to = targetUrl.pathname + targetUrl.search + targetUrl.hash;
-        else isExternal = true;
-    } // Rendered into <a href> for relative URLs
-    let href = (0, _reactRouter.useHref)(to, {
-        relative
-    });
-    let internalOnClick = useLinkClickHandler(to, {
-        replace,
-        state,
-        target,
-        preventScrollReset,
-        relative
-    });
-    function handleClick(event) {
-        if (onClick) onClick(event);
-        if (!event.defaultPrevented) internalOnClick(event);
-    }
-    return(/*#__PURE__*/ // eslint-disable-next-line jsx-a11y/anchor-has-content
-    _react.createElement("a", _extends({}, rest, {
-        href: absoluteHref || href,
-        onClick: isExternal || reloadDocument ? onClick : handleClick,
-        ref: ref,
-        target: target
-    })));
-});
-Link.displayName = "Link";
-/**
- * A <Link> wrapper that knows if it's "active" or not.
- */ const NavLink = /*#__PURE__*/ _react.forwardRef(function NavLinkWithRef(_ref5, ref) {
-    let { "aria-current": ariaCurrentProp = "page" , caseSensitive =false , className: classNameProp = "" , end =false , style: styleProp , to , children  } = _ref5, rest = _objectWithoutPropertiesLoose(_ref5, _excluded2);
-    let path = (0, _reactRouter.useResolvedPath)(to, {
-        relative: rest.relative
-    });
-    let location = (0, _reactRouter.useLocation)();
-    let routerState = _react.useContext((0, _reactRouter.UNSAFE_DataRouterStateContext));
-    let { navigator  } = _react.useContext((0, _reactRouter.UNSAFE_NavigationContext));
-    let toPathname = navigator.encodeLocation ? navigator.encodeLocation(path).pathname : path.pathname;
-    let locationPathname = location.pathname;
-    let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
-    if (!caseSensitive) {
-        locationPathname = locationPathname.toLowerCase();
-        nextLocationPathname = nextLocationPathname ? nextLocationPathname.toLowerCase() : null;
-        toPathname = toPathname.toLowerCase();
-    }
-    let isActive = locationPathname === toPathname || !end && locationPathname.startsWith(toPathname) && locationPathname.charAt(toPathname.length) === "/";
-    let isPending = nextLocationPathname != null && (nextLocationPathname === toPathname || !end && nextLocationPathname.startsWith(toPathname) && nextLocationPathname.charAt(toPathname.length) === "/");
-    let ariaCurrent = isActive ? ariaCurrentProp : undefined;
-    let className;
-    if (typeof classNameProp === "function") className = classNameProp({
-        isActive,
-        isPending
-    });
-    else // If the className prop is not a function, we use a default `active`
-    // class for <NavLink />s that are active. In v5 `active` was the default
-    // value for `activeClassName`, but we are removing that API and can still
-    // use the old default behavior for a cleaner upgrade path and keep the
-    // simple styling rules working as they currently do.
-    className = [
-        classNameProp,
-        isActive ? "active" : null,
-        isPending ? "pending" : null
-    ].filter(Boolean).join(" ");
-    let style = typeof styleProp === "function" ? styleProp({
-        isActive,
-        isPending
-    }) : styleProp;
-    return /*#__PURE__*/ _react.createElement(Link, _extends({}, rest, {
-        "aria-current": ariaCurrent,
-        className: className,
-        ref: ref,
-        style: style,
-        to: to
-    }), typeof children === "function" ? children({
-        isActive,
-        isPending
-    }) : children);
-});
-NavLink.displayName = "NavLink";
-/**
- * A `@remix-run/router`-aware `<form>`. It behaves like a normal form except
- * that the interaction with the server is with `fetch` instead of new document
- * requests, allowing components to add nicer UX to the page as the form is
- * submitted and returns with data.
- */ const Form = /*#__PURE__*/ _react.forwardRef((props, ref)=>{
-    return /*#__PURE__*/ _react.createElement(FormImpl, _extends({}, props, {
-        ref: ref
-    }));
-});
-Form.displayName = "Form";
-const FormImpl = /*#__PURE__*/ _react.forwardRef((_ref6, forwardedRef)=>{
-    let { reloadDocument , replace , method =defaultMethod , action , onSubmit , fetcherKey , routeId , relative , preventScrollReset  } = _ref6, props = _objectWithoutPropertiesLoose(_ref6, _excluded3);
-    let submit = useSubmitImpl(fetcherKey, routeId);
-    let formMethod = method.toLowerCase() === "get" ? "get" : "post";
-    let formAction = useFormAction(action, {
-        relative
-    });
-    let submitHandler = (event)=>{
-        onSubmit && onSubmit(event);
-        if (event.defaultPrevented) return;
-        event.preventDefault();
-        let submitter = event.nativeEvent.submitter;
-        let submitMethod = (submitter == null ? void 0 : submitter.getAttribute("formmethod")) || method;
-        submit(submitter || event.currentTarget, {
-            method: submitMethod,
-            replace,
-            relative,
-            preventScrollReset
-        });
-    };
-    return /*#__PURE__*/ _react.createElement("form", _extends({
-        ref: forwardedRef,
-        method: formMethod,
-        action: formAction,
-        onSubmit: reloadDocument ? onSubmit : submitHandler
-    }, props));
-});
-FormImpl.displayName = "FormImpl";
-/**
- * This component will emulate the browser's scroll restoration on location
- * changes.
- */ function ScrollRestoration(_ref7) {
-    let { getKey , storageKey  } = _ref7;
-    useScrollRestoration({
-        getKey,
-        storageKey
-    });
-    return null;
-}
-ScrollRestoration.displayName = "ScrollRestoration";
-////////////////////////////////////////////////////////////////////////////////
-//#region Hooks
-////////////////////////////////////////////////////////////////////////////////
-var DataRouterHook;
-(function(DataRouterHook) {
-    DataRouterHook["UseScrollRestoration"] = "useScrollRestoration";
-    DataRouterHook["UseSubmitImpl"] = "useSubmitImpl";
-    DataRouterHook["UseFetcher"] = "useFetcher";
-})(DataRouterHook || (DataRouterHook = {}));
-var DataRouterStateHook;
-(function(DataRouterStateHook) {
-    DataRouterStateHook["UseFetchers"] = "useFetchers";
-    DataRouterStateHook["UseScrollRestoration"] = "useScrollRestoration";
-})(DataRouterStateHook || (DataRouterStateHook = {}));
-function getDataRouterConsoleError(hookName) {
-    return hookName + " must be used within a data router.  See https://reactrouter.com/routers/picking-a-router.";
-}
-function useDataRouterContext(hookName) {
-    let ctx = _react.useContext((0, _reactRouter.UNSAFE_DataRouterContext));
-    !ctx && (0, _router.invariant)(false, getDataRouterConsoleError(hookName));
-    return ctx;
-}
-function useDataRouterState(hookName) {
-    let state = _react.useContext((0, _reactRouter.UNSAFE_DataRouterStateContext));
-    !state && (0, _router.invariant)(false, getDataRouterConsoleError(hookName));
-    return state;
-}
-/**
- * Handles the click behavior for router `<Link>` components. This is useful if
- * you need to create custom `<Link>` components with the same click behavior we
- * use in our exported `<Link>`.
- */ function useLinkClickHandler(to, _temp) {
-    let { target , replace: replaceProp , state , preventScrollReset , relative  } = _temp === void 0 ? {} : _temp;
-    let navigate = (0, _reactRouter.useNavigate)();
-    let location = (0, _reactRouter.useLocation)();
-    let path = (0, _reactRouter.useResolvedPath)(to, {
-        relative
-    });
-    return _react.useCallback((event)=>{
-        if (shouldProcessLinkClick(event, target)) {
-            event.preventDefault(); // If the URL hasn't changed, a regular <a> will do a replace instead of
-            // a push, so do the same here unless the replace prop is explicitly set
-            let replace = replaceProp !== undefined ? replaceProp : (0, _reactRouter.createPath)(location) === (0, _reactRouter.createPath)(path);
-            navigate(to, {
-                replace,
-                state,
-                preventScrollReset,
-                relative
-            });
-        }
-    }, [
-        location,
-        navigate,
-        path,
-        replaceProp,
-        state,
-        target,
-        to,
-        preventScrollReset,
-        relative
-    ]);
-}
-/**
- * A convenient wrapper for reading and writing search parameters via the
- * URLSearchParams interface.
- */ function useSearchParams(defaultInit) {
-    warning(typeof URLSearchParams !== "undefined", "You cannot use the `useSearchParams` hook in a browser that does not support the URLSearchParams API. If you need to support Internet Explorer 11, we recommend you load a polyfill such as https://github.com/ungap/url-search-params\n\nIf you're unsure how to load polyfills, we recommend you check out https://polyfill.io/v3/ which provides some recommendations about how to load polyfills only for users that need them, instead of for every user.");
-    let defaultSearchParamsRef = _react.useRef(createSearchParams(defaultInit));
-    let hasSetSearchParamsRef = _react.useRef(false);
-    let location = (0, _reactRouter.useLocation)();
-    let searchParams = _react.useMemo(()=>// Once we call that we want those to take precedence, otherwise you can't
-        // remove a param with setSearchParams({}) if it has an initial value
-        getSearchParamsForLocation(location.search, hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current), [
-        location.search
-    ]);
-    let navigate = (0, _reactRouter.useNavigate)();
-    let setSearchParams = _react.useCallback((nextInit, navigateOptions)=>{
-        const newSearchParams = createSearchParams(typeof nextInit === "function" ? nextInit(searchParams) : nextInit);
-        hasSetSearchParamsRef.current = true;
-        navigate("?" + newSearchParams, navigateOptions);
-    }, [
-        navigate,
-        searchParams
-    ]);
-    return [
-        searchParams,
-        setSearchParams
-    ];
-}
-/**
- * Returns a function that may be used to programmatically submit a form (or
- * some arbitrary data) to the server.
- */ function useSubmit() {
-    return useSubmitImpl();
-}
-function useSubmitImpl(fetcherKey, routeId) {
-    let { router  } = useDataRouterContext(DataRouterHook.UseSubmitImpl);
-    let defaultAction = useFormAction();
-    return _react.useCallback(function(target, options) {
-        if (options === void 0) options = {};
-        if (typeof document === "undefined") throw new Error("You are calling submit during the server render. Try calling submit within a `useEffect` or callback instead.");
-        let { method , encType , formData , url  } = getFormSubmissionInfo(target, defaultAction, options);
-        let href = url.pathname + url.search;
-        let opts = {
-            replace: options.replace,
-            preventScrollReset: options.preventScrollReset,
-            formData,
-            formMethod: method,
-            formEncType: encType
-        };
-        if (fetcherKey) {
-            !(routeId != null) && (0, _router.invariant)(false, "No routeId available for useFetcher()");
-            router.fetch(fetcherKey, routeId, href, opts);
-        } else router.navigate(href, opts);
-    }, [
-        defaultAction,
-        router,
-        fetcherKey,
-        routeId
-    ]);
-}
-function useFormAction(action, _temp2) {
-    let { relative  } = _temp2 === void 0 ? {} : _temp2;
-    let { basename  } = _react.useContext((0, _reactRouter.UNSAFE_NavigationContext));
-    let routeContext = _react.useContext((0, _reactRouter.UNSAFE_RouteContext));
-    !routeContext && (0, _router.invariant)(false, "useFormAction must be used inside a RouteContext");
-    let [match] = routeContext.matches.slice(-1); // Shallow clone path so we can modify it below, otherwise we modify the
-    // object referenced by useMemo inside useResolvedPath
-    let path = _extends({}, (0, _reactRouter.useResolvedPath)(action ? action : ".", {
-        relative
-    })); // Previously we set the default action to ".". The problem with this is that
-    // `useResolvedPath(".")` excludes search params and the hash of the resolved
-    // URL. This is the intended behavior of when "." is specifically provided as
-    // the form action, but inconsistent w/ browsers when the action is omitted.
-    // https://github.com/remix-run/remix/issues/927
-    let location = (0, _reactRouter.useLocation)();
-    if (action == null) {
-        // Safe to write to these directly here since if action was undefined, we
-        // would have called useResolvedPath(".") which will never include a search
-        // or hash
-        path.search = location.search;
-        path.hash = location.hash; // When grabbing search params from the URL, remove the automatically
-        // inserted ?index param so we match the useResolvedPath search behavior
-        // which would not include ?index
-        if (match.route.index) {
-            let params = new URLSearchParams(path.search);
-            params.delete("index");
-            path.search = params.toString() ? "?" + params.toString() : "";
-        }
-    }
-    if ((!action || action === ".") && match.route.index) path.search = path.search ? path.search.replace(/^\?/, "?index&") : "?index";
-     // If we're operating within a basename, prepend it to the pathname prior
-    // to creating the form action.  If this is a root navigation, then just use
-    // the raw basename which allows the basename to have full control over the
-    // presence of a trailing slash on root actions
-    if (basename !== "/") path.pathname = path.pathname === "/" ? basename : (0, _router.joinPaths)([
-        basename,
-        path.pathname
-    ]);
-    return (0, _reactRouter.createPath)(path);
-}
-function createFetcherForm(fetcherKey, routeId) {
-    let FetcherForm = /*#__PURE__*/ _react.forwardRef((props, ref)=>{
-        return /*#__PURE__*/ _react.createElement(FormImpl, _extends({}, props, {
-            ref: ref,
-            fetcherKey: fetcherKey,
-            routeId: routeId
-        }));
-    });
-    FetcherForm.displayName = "fetcher.Form";
-    return FetcherForm;
-}
-let fetcherId = 0;
-/**
- * Interacts with route loaders and actions without causing a navigation. Great
- * for any interaction that stays on the same page.
- */ function useFetcher() {
-    var _route$matches;
-    let { router  } = useDataRouterContext(DataRouterHook.UseFetcher);
-    let route = _react.useContext((0, _reactRouter.UNSAFE_RouteContext));
-    !route && (0, _router.invariant)(false, "useFetcher must be used inside a RouteContext");
-    let routeId = (_route$matches = route.matches[route.matches.length - 1]) == null ? void 0 : _route$matches.route.id;
-    !(routeId != null) && (0, _router.invariant)(false, 'useFetcher can only be used on routes that contain a unique "id"');
-    let [fetcherKey] = _react.useState(()=>String(++fetcherId));
-    let [Form] = _react.useState(()=>{
-        !routeId && (0, _router.invariant)(false, "No routeId available for fetcher.Form()");
-        return createFetcherForm(fetcherKey, routeId);
-    });
-    let [load] = _react.useState(()=>(href)=>{
-            !router && (0, _router.invariant)(false, "No router available for fetcher.load()");
-            !routeId && (0, _router.invariant)(false, "No routeId available for fetcher.load()");
-            router.fetch(fetcherKey, routeId, href);
-        });
-    let submit = useSubmitImpl(fetcherKey, routeId);
-    let fetcher = router.getFetcher(fetcherKey);
-    let fetcherWithComponents = _react.useMemo(()=>_extends({
-            Form,
-            submit,
-            load
-        }, fetcher), [
-        fetcher,
-        Form,
-        submit,
-        load
-    ]);
-    _react.useEffect(()=>{
-        // Is this busted when the React team gets real weird and calls effects
-        // twice on mount?  We really just need to garbage collect here when this
-        // fetcher is no longer around.
-        return ()=>{
-            if (!router) {
-                console.warn("No fetcher available to clean up from useFetcher()");
-                return;
-            }
-            router.deleteFetcher(fetcherKey);
-        };
-    }, [
-        router,
-        fetcherKey
-    ]);
-    return fetcherWithComponents;
-}
-/**
- * Provides all fetchers currently on the page. Useful for layouts and parent
- * routes that need to provide pending/optimistic UI regarding the fetch.
- */ function useFetchers() {
-    let state = useDataRouterState(DataRouterStateHook.UseFetchers);
-    return [
-        ...state.fetchers.values()
-    ];
-}
-const SCROLL_RESTORATION_STORAGE_KEY = "react-router-scroll-positions";
-let savedScrollPositions = {};
-/**
- * When rendered inside a RouterProvider, will restore scroll positions on navigations
- */ function useScrollRestoration(_temp3) {
-    let { getKey , storageKey  } = _temp3 === void 0 ? {} : _temp3;
-    let { router  } = useDataRouterContext(DataRouterHook.UseScrollRestoration);
-    let { restoreScrollPosition , preventScrollReset  } = useDataRouterState(DataRouterStateHook.UseScrollRestoration);
-    let location = (0, _reactRouter.useLocation)();
-    let matches = (0, _reactRouter.useMatches)();
-    let navigation = (0, _reactRouter.useNavigation)(); // Trigger manual scroll restoration while we're active
-    _react.useEffect(()=>{
-        window.history.scrollRestoration = "manual";
-        return ()=>{
-            window.history.scrollRestoration = "auto";
-        };
-    }, []); // Save positions on pagehide
-    usePageHide(_react.useCallback(()=>{
-        if (navigation.state === "idle") {
-            let key = (getKey ? getKey(location, matches) : null) || location.key;
-            savedScrollPositions[key] = window.scrollY;
-        }
-        sessionStorage.setItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY, JSON.stringify(savedScrollPositions));
-        window.history.scrollRestoration = "auto";
-    }, [
-        storageKey,
-        getKey,
-        navigation.state,
-        location,
-        matches
-    ])); // Read in any saved scroll locations
-    if (typeof document !== "undefined") {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        _react.useLayoutEffect(()=>{
-            try {
-                let sessionPositions = sessionStorage.getItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY);
-                if (sessionPositions) savedScrollPositions = JSON.parse(sessionPositions);
-            } catch (e) {}
-        }, [
-            storageKey
-        ]); // Enable scroll restoration in the router
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        _react.useLayoutEffect(()=>{
-            let disableScrollRestoration = router == null ? void 0 : router.enableScrollRestoration(savedScrollPositions, ()=>window.scrollY, getKey);
-            return ()=>disableScrollRestoration && disableScrollRestoration();
-        }, [
-            router,
-            getKey
-        ]); // Restore scrolling when state.restoreScrollPosition changes
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        _react.useLayoutEffect(()=>{
-            // Explicit false means don't do anything (used for submissions)
-            if (restoreScrollPosition === false) return;
-             // been here before, scroll to it
-            if (typeof restoreScrollPosition === "number") {
-                window.scrollTo(0, restoreScrollPosition);
-                return;
-            } // try to scroll to the hash
-            if (location.hash) {
-                let el = document.getElementById(location.hash.slice(1));
-                if (el) {
-                    el.scrollIntoView();
-                    return;
-                }
-            } // Don't reset if this navigation opted out
-            if (preventScrollReset === true) return;
-             // otherwise go to the top on new locations
-            window.scrollTo(0, 0);
-        }, [
-            location,
-            restoreScrollPosition,
-            preventScrollReset
-        ]);
-    }
-}
-/**
- * Setup a callback to be fired on the window's `beforeunload` event. This is
- * useful for saving some data to `window.localStorage` just before the page
- * refreshes.
- *
- * Note: The `callback` argument should be a function created with
- * `React.useCallback()`.
- */ function useBeforeUnload(callback, options) {
-    let { capture  } = options || {};
-    _react.useEffect(()=>{
-        let opts = capture != null ? {
-            capture
-        } : undefined;
-        window.addEventListener("beforeunload", callback, opts);
-        return ()=>{
-            window.removeEventListener("beforeunload", callback, opts);
-        };
-    }, [
-        callback,
-        capture
-    ]);
-}
-/**
- * Setup a callback to be fired on the window's `pagehide` event. This is
- * useful for saving some data to `window.localStorage` just before the page
- * refreshes.  This event is better supported than beforeunload across browsers.
- *
- * Note: The `callback` argument should be a function created with
- * `React.useCallback()`.
- */ function usePageHide(callback, options) {
-    let { capture  } = options || {};
-    _react.useEffect(()=>{
-        let opts = capture != null ? {
-            capture
-        } : undefined;
-        window.addEventListener("pagehide", callback, opts);
-        return ()=>{
-            window.removeEventListener("pagehide", callback, opts);
-        };
-    }, [
-        callback,
-        capture
-    ]);
-}
-/**
- * Wrapper around useBlocker to show a window.confirm prompt to users instead
- * of building a custom UI with useBlocker.
- *
- * Warning: This has *a lot of rough edges* and behaves very differently (and
- * very incorrectly in some cases) across browsers if user click addition
- * back/forward navigations while the confirm is open.  Use at your own risk.
- */ function usePrompt(_ref8) {
-    let { when , message  } = _ref8;
-    let blocker = (0, _reactRouter.unstable_useBlocker)(when);
-    _react.useEffect(()=>{
-        if (blocker.state === "blocked" && !when) blocker.reset();
-    }, [
-        blocker,
-        when
-    ]);
-    _react.useEffect(()=>{
-        if (blocker.state === "blocked") {
-            let proceed = window.confirm(message);
-            if (proceed) setTimeout(blocker.proceed, 0);
-            else blocker.reset();
-        }
-    }, [
-        blocker,
-        message
-    ]);
-}
-////////////////////////////////////////////////////////////////////////////////
-//#region Utils
-////////////////////////////////////////////////////////////////////////////////
-function warning(cond, message) {
-    if (!cond) {
-        // eslint-disable-next-line no-console
-        if (typeof console !== "undefined") console.warn(message);
-        try {
-            // Welcome to debugging React Router!
-            //
-            // This error is thrown as a convenience so you can more easily
-            // find the source for a warning that appears in the console by
-            // enabling "pause on exceptions" in your JavaScript debugger.
-            throw new Error(message); // eslint-disable-next-line no-empty
-        } catch (e) {}
-    }
-} //#endregion
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"bgTup"}],"ggaUx":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$e9f6 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$e9f6.prelude(module);
 
-},{"react":"21dqq","react-router":"dbWyW","@remix-run/router":"5ncDG","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup"}],"9YtA0":[function(require,module,exports) {
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "MovieView", ()=>MovieView);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _propTypes = require("prop-types");
+var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
+var _col = require("react-bootstrap/Col");
+var _colDefault = parcelHelpers.interopDefault(_col);
+var _button = require("react-bootstrap/Button");
+var _buttonDefault = parcelHelpers.interopDefault(_button);
+var _reactRouter = require("react-router");
+var _reactRouterDom = require("react-router-dom");
+var _s = $RefreshSig$();
+const MovieView = ({ movies  })=>{
+    _s();
+    const { movieId  } = (0, _reactRouter.useParams)();
+    const movie = movies.find((m)=>m.id === movie.Id);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                src: movie.imgUrl,
+                alt: ""
+            }, void 0, false, {
+                fileName: "src/components/movie-view/movie-view.jsx",
+                lineNumber: 13,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "title",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Title: "
+                    }, void 0, false, {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 15,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: movie.title
+                    }, void 0, false, {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 16,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/movie-view/movie-view.jsx",
+                lineNumber: 14,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "description",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Description: "
+                    }, void 0, false, {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 19,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: movie.description
+                    }, void 0, false, {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 20,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/movie-view/movie-view.jsx",
+                lineNumber: 18,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "genre",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Genre: "
+                    }, void 0, false, {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 23,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: movie.genre
+                    }, void 0, false, {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 24,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/movie-view/movie-view.jsx",
+                lineNumber: 22,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "director",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: "Director: "
+                    }, void 0, false, {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 27,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        children: movie.director
+                    }, void 0, false, {
+                        fileName: "src/components/movie-view/movie-view.jsx",
+                        lineNumber: 28,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/movie-view/movie-view.jsx",
+                lineNumber: 26,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
+                to: "/",
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _buttonDefault.default), {
+                    variant: "primary",
+                    className: "back-button",
+                    children: "Back"
+                }, void 0, false, {
+                    fileName: "src/components/movie-view/movie-view.jsx",
+                    lineNumber: 31,
+                    columnNumber: 9
+                }, undefined)
+            }, void 0, false, {
+                fileName: "src/components/movie-view/movie-view.jsx",
+                lineNumber: 30,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/components/movie-view/movie-view.jsx",
+        lineNumber: 12,
+        columnNumber: 5
+    }, undefined);
+}; // MovieView.propTypes = {
+ //   movie: PropTypes.shape({
+ //     title: PropTypes.string,
+ //     imgUrl: PropTypes.string,
+ //     genre: PropTypes.shape({
+ //       name: PropTypes.string,
+ //       description: PropTypes.string
+ //     }),
+ //     description: PropTypes.string,
+ //     director: PropTypes.shape({
+ //       bio: PropTypes.string,
+ //       birth: PropTypes.string,
+ //       death: PropTypes.string,
+ //       name: PropTypes.string
+ //     })
+ //   }).isRequired,
+ // };
+ // Pre router
+_s(MovieView, "e2L2DPdRH1AShA7yIOCsYRlzvlI=", false, function() {
+    return [
+        (0, _reactRouter.useParams)
+    ];
+});
+_c = MovieView;
+var _c;
+$RefreshReg$(_c, "MovieView");
+
+  $parcel$ReactRefreshHelpers$e9f6.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","prop-types":"7wKI2","react-bootstrap/Col":"2L2I6","react-bootstrap/Button":"aPzUt","react-router":"dbWyW","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lzpI4"}],"2L2I6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "useCol", ()=>useCol);
+var _classnames = require("classnames");
+var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+var _react = require("react");
+var _themeProvider = require("./ThemeProvider");
+var _jsxRuntime = require("react/jsx-runtime");
+function useCol({ as , bsPrefix , className , ...props }) {
+    bsPrefix = (0, _themeProvider.useBootstrapPrefix)(bsPrefix, "col");
+    const breakpoints = (0, _themeProvider.useBootstrapBreakpoints)();
+    const minBreakpoint = (0, _themeProvider.useBootstrapMinBreakpoint)();
+    const spans = [];
+    const classes = [];
+    breakpoints.forEach((brkPoint)=>{
+        const propValue = props[brkPoint];
+        delete props[brkPoint];
+        let span;
+        let offset;
+        let order;
+        if (typeof propValue === "object" && propValue != null) ({ span , offset , order  } = propValue);
+        else span = propValue;
+        const infix = brkPoint !== minBreakpoint ? `-${brkPoint}` : "";
+        if (span) spans.push(span === true ? `${bsPrefix}${infix}` : `${bsPrefix}${infix}-${span}`);
+        if (order != null) classes.push(`order${infix}-${order}`);
+        if (offset != null) classes.push(`offset${infix}-${offset}`);
+    });
+    return [
+        {
+            ...props,
+            className: (0, _classnamesDefault.default)(className, ...spans, ...classes)
+        },
+        {
+            as,
+            bsPrefix,
+            spans
+        }
+    ];
+}
+const Col = /*#__PURE__*/ _react.forwardRef(// Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+(props, ref)=>{
+    const [{ className , ...colProps }, { as: Component = "div" , bsPrefix , spans  }] = useCol(props);
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(Component, {
+        ...colProps,
+        ref: ref,
+        className: (0, _classnamesDefault.default)(className, !spans.length && bsPrefix)
+    });
+});
+Col.displayName = "Col";
+exports.default = Col;
+
+},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup"}],"9YtA0":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$9fee = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;

@@ -11,13 +11,13 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
-
   const [movies, updateMovies] = useState([]);
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(storedUser ? storedUser : null);
+  const [token, setToken] = useState(storedToken ? storedToken : null);
 
   useEffect(() => {
     if (!token) {
+      console.log("No token");
       return;
     }
 
@@ -28,7 +28,7 @@ export const MainView = () => {
       .then((data) => {
         const moviesFromApi = data.map((movie) => {
           return {
-            id: movie.id,
+            id: movie._id,
             title: movie.title,
             description: movie.description,
             genre: movie.genre.name,
@@ -37,7 +37,9 @@ export const MainView = () => {
           }
         })
         updateMovies(moviesFromApi);
-      })
+        localStorage.setItem("movies", JSON.stringify(moviesFromApi))
+      });
+      console.log("Test")
   }, [token]);
 
   return (
@@ -94,11 +96,11 @@ export const MainView = () => {
             element={
               <>
                 {!user ? (<Navigate to="/login" replace />)
-                  // : movies.length === 0 ? (<Col>The list is empty!</Col>)
+                  : movies.length === 0 ? (<Col>The list is empty!</Col>)
                   : (
                     <>
                       {movies.map((movie) => (
-                        <Col className="mb-4" key={movie.id} md={3}>
+                        <Col className="mb-4" key={movie._id} md={3}>
                           <MovieButton movie={movie} />
                         </Col>
                       ))}
@@ -112,45 +114,3 @@ export const MainView = () => {
     </BrowserRouter>
   )
 }
-
-
-
-
-
-
-//         {/* if no user, return LoginView and SignupView PUT IN PARENTHESES */}
-//         {!user ? (
-//           <Col md={5}>
-//             <LoginView onLoggedIn={(username, token) => {
-//               setUser(username);
-//               setToken(token);
-//             }} />
-//             <SignupView />
-//           </Col>
-//           // otherwise, if a selectedMovie exists, return MovieView
-//         ) : selectedMovie ? (
-//           <Col md={8}>
-//             <MovieView
-//               movie={selectedMovie}
-//               onBackClick={() => setSelectedMovie(null)}
-//             />
-//           </Col>
-//           // if no selectedMovie exists, check movies.length and return <div> if 0
-//         ) : movies.length === 0 ? (
-//           <div>The list is empty!</div>
-//         ) : (
-//           // if movies.length ! === 0, return movies.map function
-//           <>
-//             {movies.map((movie) => (
-//               <Col key={movie.id} md={3} className="mb-5">
-//                 <MovieButton
-//                   key={movie.id}
-//                   movie={movie}
-//                   onMovieClick={(newlyClickedMovie) => {
-//                     setSelectedMovie(newlyClickedMovie);
-//                   }}
-//                 />
-//               </Col>
-//             ))}
-//           </>
-//         )}

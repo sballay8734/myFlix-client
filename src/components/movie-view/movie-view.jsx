@@ -34,22 +34,21 @@ export const MovieView = ({ movies }) => {
   );
 };
 
-MovieView.propTypes = {
-  movie: PropTypes.shape({
-    title: PropTypes.string,
-    imgUrl: PropTypes.string,
-    genre: PropTypes.shape({
-      name: PropTypes.string,
-      description: PropTypes.string
-    }),
-    description: PropTypes.string,
-    director: PropTypes.shape({
-      bio: PropTypes.string,
-      birth: PropTypes.string,
-      death: PropTypes.string,
-      name: PropTypes.string
-    })
-  }).isRequired,
-  onBackClick: PropTypes.func.isRequired
-};
+// MovieView.propTypes = {
+//   movie: PropTypes.shape({
+//     title: PropTypes.string,
+//     imgUrl: PropTypes.string,
+//     genre: PropTypes.shape({
+//       name: PropTypes.string,
+//       description: PropTypes.string
+//     }),
+//     description: PropTypes.string,
+//     director: PropTypes.shape({
+//       bio: PropTypes.string,
+//       birth: PropTypes.string,
+//       death: PropTypes.string,
+//       name: PropTypes.string
+//     })
+//   }).isRequired,
+// };
 // Pre router

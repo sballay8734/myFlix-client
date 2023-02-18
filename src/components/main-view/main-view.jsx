@@ -7,6 +7,8 @@ import { NavigationBar } from '../navigation-bar/navigation-bar';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Nav } from 'react-bootstrap';
+import { ProfileView } from '../profile-view/profile-view';
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -39,7 +41,6 @@ export const MainView = () => {
         updateMovies(moviesFromApi);
         localStorage.setItem("movies", JSON.stringify(moviesFromApi))
       });
-      console.log("Test")
   }, [token]);
 
   return (
@@ -106,6 +107,15 @@ export const MainView = () => {
                       ))}
                     </>
                   )}
+              </>
+            }
+          />
+          <Route
+            path="/users/:username"
+            element={
+              <>
+                {!user ? (<Navigate to="/login" replace />)
+                  : (<ProfileView user={user} token={token} />)}
               </>
             }
           />

@@ -12019,6 +12019,17 @@ img {
   margin-top: 1rem;
 }
 
+.profile-form {
+  width: 700px;
+  flex-direction: column;
+  margin-top: 1rem;
+  display: flex;
+}
+
+.profile-info, .user-info-button {
+  margin-top: 1rem;
+}
+
 #button-image {
   width: 200px;
 }

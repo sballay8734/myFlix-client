@@ -49,7 +49,7 @@ export const ProfileView = ({ user, token }) => {
         updateCurrentUser(currentUser);
       })
 
-  }, [user])
+  }, [currentUser])
 
 
   return (

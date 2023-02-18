@@ -46815,7 +46815,7 @@ const ProfileView = ({ user , token  })=>{
             updateCurrentUser(currentUser);
         });
     }, [
-        user
+        currentUser
     ]);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [

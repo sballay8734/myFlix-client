@@ -23,7 +23,7 @@ export const ProfileView = ({ user, token }) => {
       },
       body: JSON.stringify(
         {
-          // username: document.getElementById('username-field').value,
+          username: document.getElementById('username-field').value,
           // password: getElementById('password-field').value,
           email: document.getElementById('email-field').value
         }

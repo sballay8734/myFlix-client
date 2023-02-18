@@ -46792,7 +46792,7 @@ const ProfileView = ({ user , token  })=>{
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                // username: document.getElementById('username-field').value,
+                username: document.getElementById("username-field").value,
                 // password: getElementById('password-field').value,
                 email: document.getElementById("email-field").value
             })
@@ -46958,7 +46958,8 @@ const UpdateUserInfo = ({ user , handleSubmit , handleUpdate  })=>{
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                 type: "text",
                 name: "username",
-                id: "username-field"
+                id: "username-field",
+                defaultValue: user.username
             }, void 0, false, {
                 fileName: "src/components/profile-view/update-user-info.jsx",
                 lineNumber: 9,
@@ -46991,8 +46992,7 @@ const UpdateUserInfo = ({ user , handleSubmit , handleUpdate  })=>{
                 type: "email",
                 name: "email",
                 id: "email-field",
-                defaultValue: user.email,
-                onChange: (e)=>handleUpdate(e)
+                defaultValue: user.email
             }, void 0, false, {
                 fileName: "src/components/profile-view/update-user-info.jsx",
                 lineNumber: 25,

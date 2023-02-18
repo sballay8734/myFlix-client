@@ -7,23 +7,29 @@ export const UpdateUserInfo = ({ user, handleSubmit, handleUpdate }) => {
       <h2>Want to change some info {user.username}?</h2>
       <label>Username: </label>
       <input
-        type="text"
-        name="username"
-        defaultValue={user.username}
-        onChange={e => handleUpdate(e.target.value)} />
+        type='text'
+        name='username'
+        id='username-field'
+        // defaultValue={user.username}
+        // onChange={e => handleUpdate(e.target.value)} 
+      />
       <label>Password: </label>
       <input
-        type="password"
-        name="password"
-        defaultValue={user.password}
-        onChange={e => handleUpdate(e.target.value)} />
+        type='password'
+        name='password'
+        id='password-field'
+        // defaultValue={user.password}
+        // onChange={e => handleUpdate(e.target.value)} 
+      />
       <label>Email: </label>
       <input
-        type="email"
-        name="email"
+        type='email'
+        name='email'
+        id='email-field'
         defaultValue={user.email}
-        onChange={e => handleUpdate(e.target.value)} />
-      <Button className="user-info-button" variant="primary" type="submit">Update</Button>
+        // onChange={e => handleUpdate(e)} 
+      />
+      <Button className='user-info-button' variant='primary' type='submit'>Update</Button>
     </form>
   )
 }

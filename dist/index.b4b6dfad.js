@@ -46773,12 +46773,33 @@ parcelHelpers.export(exports, "ProfileView", ()=>ProfileView);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _reactRouterDom = require("react-router-dom");
 var _react = require("react");
+var _userInfo = require("./user-info");
 var _updateUserInfo = require("./update-user-info");
 var _s = $RefreshSig$();
 const ProfileView = ({ user , token  })=>{
     _s();
     const { username  } = (0, _reactRouterDom.useParams)();
     const [currentUser, updateCurrentUser] = (0, _react.useState)(user);
+    const handleUpdate = (e)=>{
+    // idk
+    };
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+        fetch(`https://sbmovieapi.herokuapp.com/users/${currentUser.username}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                // username: document.getElementById('username-field').value,
+                // password: getElementById('password-field').value,
+                email: document.getElementById("email-field").value
+            })
+        }).then((data)=>{
+            alert("Success!", console.log(data));
+        }).catch((error)=>console.log(error));
+    };
     (0, _react.useEffect)(()=>{
         fetch(`https://sbmovieapi.herokuapp.com/users/${username}`, {
             headers: {
@@ -46797,42 +46818,26 @@ const ProfileView = ({ user , token  })=>{
         user
     ]);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: "profile-info",
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                children: [
-                    "ProfileView of ",
-                    username
-                ]
-            }, void 0, true, {
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _userInfo.UserInfo), {
+                user: currentUser
+            }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 30,
+                lineNumber: 57,
                 columnNumber: 7
             }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                children: [
-                    "Email: ",
-                    currentUser.email
-                ]
-            }, void 0, true, {
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _updateUserInfo.UpdateUserInfo), {
+                user: currentUser,
+                handleSubmit: handleSubmit
+            }, void 0, false, {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 31,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                children: [
-                    "Favorite Movies: ",
-                    currentUser.favoriteMovies
-                ]
-            }, void 0, true, {
-                fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 32,
+                lineNumber: 58,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/profile-view/profile-view.jsx",
-        lineNumber: 29,
+        lineNumber: 56,
         columnNumber: 5
     }, undefined);
 };
@@ -46850,7 +46855,7 @@ $RefreshReg$(_c, "ProfileView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react-router-dom":"9xmpe","react":"21dqq","./update-user-info":"96c6s","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lzpI4"}],"96c6s":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react-router-dom":"9xmpe","react":"21dqq","./update-user-info":"96c6s","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lzpI4","./user-info":"66eot"}],"96c6s":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$894b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -46891,8 +46896,7 @@ const UpdateUserInfo = ({ user , handleSubmit , handleUpdate  })=>{
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                 type: "text",
                 name: "username",
-                defaultValue: user.username,
-                onChange: (e)=>handleUpdate(e.target.value)
+                id: "username-field"
             }, void 0, false, {
                 fileName: "src/components/profile-view/update-user-info.jsx",
                 lineNumber: 9,
@@ -46902,34 +46906,33 @@ const UpdateUserInfo = ({ user , handleSubmit , handleUpdate  })=>{
                 children: "Password: "
             }, void 0, false, {
                 fileName: "src/components/profile-view/update-user-info.jsx",
-                lineNumber: 14,
+                lineNumber: 16,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                 type: "password",
                 name: "password",
-                defaultValue: user.password,
-                onChange: (e)=>handleUpdate(e.target.value)
+                id: "password-field"
             }, void 0, false, {
                 fileName: "src/components/profile-view/update-user-info.jsx",
-                lineNumber: 15,
+                lineNumber: 17,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
                 children: "Email: "
             }, void 0, false, {
                 fileName: "src/components/profile-view/update-user-info.jsx",
-                lineNumber: 20,
+                lineNumber: 24,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                 type: "email",
                 name: "email",
-                defaultValue: user.email,
-                onChange: (e)=>handleUpdate(e.target.value)
+                id: "email-field",
+                defaultValue: user.email
             }, void 0, false, {
                 fileName: "src/components/profile-view/update-user-info.jsx",
-                lineNumber: 21,
+                lineNumber: 25,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _buttonDefault.default), {
@@ -46939,7 +46942,7 @@ const UpdateUserInfo = ({ user , handleSubmit , handleUpdate  })=>{
                 children: "Update"
             }, void 0, false, {
                 fileName: "src/components/profile-view/update-user-info.jsx",
-                lineNumber: 26,
+                lineNumber: 32,
                 columnNumber: 7
             }, undefined)
         ]
@@ -46958,6 +46961,67 @@ $RefreshReg$(_c, "UpdateUserInfo");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lzpI4","react-bootstrap/Button":"aPzUt"}]},["lz8pB","lkKuz","d8Dch"], "d8Dch", "parcelRequireaec4")
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-bootstrap/Button":"aPzUt","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lzpI4"}],"66eot":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$1330 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$1330.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "UserInfo", ()=>UserInfo);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+const UserInfo = ({ user  })=>{
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "profile-info",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                children: [
+                    "ProfileView of ",
+                    user.username
+                ]
+            }, void 0, true, {
+                fileName: "src/components/profile-view/user-info.jsx",
+                lineNumber: 4,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: [
+                    "Email: ",
+                    user.email
+                ]
+            }, void 0, true, {
+                fileName: "src/components/profile-view/user-info.jsx",
+                lineNumber: 5,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                children: [
+                    "Favorite Movies: ",
+                    user.favoriteMovies
+                ]
+            }, void 0, true, {
+                fileName: "src/components/profile-view/user-info.jsx",
+                lineNumber: 6,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/components/profile-view/user-info.jsx",
+        lineNumber: 3,
+        columnNumber: 5
+    }, undefined);
+};
+_c = UserInfo;
+var _c;
+$RefreshReg$(_c, "UserInfo");
+
+  $parcel$ReactRefreshHelpers$1330.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"bgTup","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"lzpI4"}]},["lz8pB","lkKuz","d8Dch"], "d8Dch", "parcelRequireaec4")
 
 //# sourceMappingURL=index.b4b6dfad.js.map

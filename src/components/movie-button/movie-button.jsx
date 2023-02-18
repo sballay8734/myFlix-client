@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import './movie-button.scss';
 
-export const MovieButton = ({ movie, onMovieClick }) => {
+export const MovieButton = ({ movie }) => {
   return (
     <Card className="movie-card h-100">
       <Card.Img src={movie.imgUrl} id="button-image" />

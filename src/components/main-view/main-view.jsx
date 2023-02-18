@@ -13,7 +13,6 @@ export const MainView = () => {
   const storedToken = localStorage.getItem("token");
 
   const [movies, updateMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
@@ -38,7 +37,6 @@ export const MainView = () => {
           }
         })
         updateMovies(moviesFromApi);
-        console.log("Movies: ", movies);
       })
   }, [token]);
 
@@ -96,7 +94,7 @@ export const MainView = () => {
             element={
               <>
                 {!user ? (<Navigate to="/login" replace />)
-                  : movies.length === 0 ? (<Col>The list is empty!</Col>)
+                  // : movies.length === 0 ? (<Col>The list is empty!</Col>)
                   : (
                     <>
                       {movies.map((movie) => (

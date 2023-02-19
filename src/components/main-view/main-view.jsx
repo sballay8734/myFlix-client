@@ -39,14 +39,14 @@ export const MainView = () => {
           }
         })
         updateMovies(moviesFromApi);
-        localStorage.setItem("movies", JSON.stringify(moviesFromApi))
+        // localStorage.setItem("movies", JSON.stringify(moviesFromApi))
       });
   }, [token]);
 
   return (
     <BrowserRouter>
     <NavigationBar user={user} onLoggedOut={() => {setUser(null); setToken(null); localStorage.clear()}}/>
-      <Row className="justify-content-md-center">
+      <Row className="justify-content-md-center mt-4">
         <Routes>
           <Route
             path="/signup"
@@ -115,7 +115,7 @@ export const MainView = () => {
             element={
               <>
                 {!user ? (<Navigate to="/login" replace />)
-                  : (<ProfileView user={user} token={token} />)}
+                  : (<ProfileView movies={movies} />)}
               </>
             }
           />

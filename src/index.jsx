@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 
 const App = () => {
   return (
-    <Container>
+    <Container fluid>
       <MainView />
     </Container>
   )

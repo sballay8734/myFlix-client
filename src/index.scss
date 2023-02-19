@@ -2,6 +2,32 @@ $primary: SeaGreen;
 $body-bg: Honeydew;
 @import '~bootstrap/scss/bootstrap.scss';
 
+html,
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  padding: 0;
+  margin: 0;
+}
+
+.container-fluid {
+  margin: 0;
+  padding: 0;
+}
+
+.navbar .container {
+  width: 100%;
+  margin: 0;
+}
+
+.navbar {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
 img {
   height: 275px;
   width: 200px;
@@ -16,17 +42,23 @@ img {
   margin-top: 1rem;
 }
 
-.profile-form {
-  display: flex;
-  flex-direction: column;
-  width: 700px;
-  margin-top: 1rem;
-}
-
 .profile-info {
   margin-top: 1rem;
 }
 
 .user-info-button {
   margin-top: 1rem;
+}
+
+.card-body {
+  flex-direction: column;
+  border-radius: 1rem;
+}
+
+#card-body {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.card {
+  border-radius: 1rem;
 }

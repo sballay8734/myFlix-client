@@ -110,7 +110,7 @@ export const UpdateUserInfo = ({ storedToken, storedUser }) => {
                   />
                 </Form.Group>
                 <Row>
-                  <Col className='text-end'>
+                  <Col className='text-center'>
                     <Button variant='primary' type='submit' className='mt-3'>
                       Update
                     </Button>

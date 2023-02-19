@@ -4,7 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 export const UserInfo = ({ user }) => {
 
   return (
-    <Row className='d-flex flex-column flex-lg-row mt-3 mb-1 text-center'>
+    <Row className='d-flex flex-column flex-lg-row mt-3 mb-4 text-center'>
       <Col>
         <span>Username: </span>
         <span className='fw-bolder'>{user.username}</span>

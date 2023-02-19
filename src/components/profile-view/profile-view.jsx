@@ -2,8 +2,8 @@ import React from 'react';
 
 import { UpdateUserInfo } from './update-user-info';
 import { UserInfo } from './user-info';
-// import { FavoriteMovies } from './favorite-movies';
-// import { DeleteUser } from './delete-user';
+import { FavoriteMovies } from './favorite-movies';
+import { DeleteUser } from './delete-user';
 
 export const ProfileView = ({ movies }) => {
   const storedToken = localStorage.getItem('token');
@@ -13,6 +13,8 @@ export const ProfileView = ({ movies }) => {
     <>
       <UserInfo user={storedUser} />
       <UpdateUserInfo storedToken={storedToken} storedUser={storedUser} />
+      <DeleteUser storedToken={storedToken} storedUser={storedUser} />
+      <FavoriteMovies movies={movies} storedUser={storedUser} />
     </>
   )
 }

@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import './movie-button.scss';
 
-export const MovieButton = ({ movie }) => {
+export const MovieButton = ({ movie, user, updateUserOnFav }) => {
   return (
     <Card className="movie-card h-100">
       <Card.Img src={movie.imgUrl} id="button-image" />
@@ -12,7 +12,7 @@ export const MovieButton = ({ movie }) => {
         <Card.Title>{movie.title}</Card.Title>
         <Card.Text>{movie.director.name}</Card.Text>
         <Link to={`/movies/${encodeURIComponent(movie.id)}`} >
-          <Button className="open-button">Open</Button>
+          <Button className="open-button">Details</Button>
         </Link>
       </Card.Body>
     </Card>

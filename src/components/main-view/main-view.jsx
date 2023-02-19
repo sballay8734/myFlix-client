@@ -1,18 +1,22 @@
 import { useState, useEffect } from 'react';
+
 import { MovieButton } from '../movie-button/movie-button';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
 import { SignupView } from '../signup-view/signup-view';
 import { NavigationBar } from '../navigation-bar/navigation-bar';
+import { ProfileView } from '../profile-view/profile-view';
+
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Nav from 'react-bootstrap/Nav';
+
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Nav } from 'react-bootstrap';
-import { ProfileView } from '../profile-view/profile-view';
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
+
   const [movies, updateMovies] = useState([]);
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
@@ -86,7 +90,14 @@ export const MainView = () => {
                   <Col>The list is empty!</Col>
                 ) : (
                   <Col md={8}>
-                    <MovieView movies={movies} />
+                    <MovieView
+                      movies={movies}
+                      user={user}
+                      updateUserOnFav={(user) => {
+                        console.log('Update User Called', user);
+                        setUser(user);
+                        localStorage.setItem('user', JSON.stringify(user));
+                      }} />
                   </Col>
                 )}
               </>
@@ -102,7 +113,14 @@ export const MainView = () => {
                     <>
                       {movies.map((movie) => (
                         <Col className="mb-4" key={movie._id} md={3}>
-                          <MovieButton movie={movie} />
+                          <MovieButton
+                            movie={movie}
+                            user={user}
+                            updateUserOnFav={(user) => {
+                              console.log('Update User called', user);
+                              setUser(user);
+                              localStorage.setItem('user', JSON.stringify(user))
+                            }} />
                         </Col>
                       ))}
                     </>
